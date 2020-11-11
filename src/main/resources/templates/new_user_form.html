@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+  <meta charset="UTF-8">
+  <title>Wine|ユーザを登録する</title>
+</head>
+
+<body>
+  <form action="/new_user/regist" method="POST">
+    <p>
+      <label>ユーザID　　　　：</label>
+      <input type="text" name="user_id" placeholder="ユーザID">
+    </p>
+    <p>
+      <label>ユーザ名　　　　：</label>
+      <input type="text" name="user_name" placeholder="ユーザ名">
+    </p>
+    <p>
+      <label>パスワード　　　：</label>
+      <input type="password" name="user_pwd_1" placeholder="パスワードを入力">
+    </p>
+    <p>
+      <label>パスワード再入力：</label>
+      <input type="password" name="user_pwd_2" placeholder="パスワードを再入力">
+    </p>
+    <p>
+      <input type="submit" name="make_new_user" value="登録">
+    </p>
+  </form>
+</body>
+
+</html>
