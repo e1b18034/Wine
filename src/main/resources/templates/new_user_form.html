@@ -7,6 +7,7 @@
 </head>
 
 <body>
+  <h3 th:if="${message}">[[${message}]]</h3>
   <form action="/new_user/regist" method="POST">
     <p>
       <label>ユーザID　　　　：</label>
