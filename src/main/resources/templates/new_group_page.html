@@ -1,0 +1,7 @@
+<table th:if="${groups}" border="1">
+  <tr th:each="group:${groups}">
+    <td>[[${group.group_id}]]</td>
+    <td>[[${group.group_name}]]</td>
+    <td>[[${group.group_pwd}]]</td>
+  </tr>
+</table>
