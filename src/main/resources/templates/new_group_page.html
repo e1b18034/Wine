@@ -1,7 +1,34 @@
-<table th:if="${groups}" border="1">
-  <tr th:each="group:${groups}">
-    <td>[[${group.group_id}]]</td>
-    <td>[[${group.group_name}]]</td>
-    <td>[[${group.group_pwd}]]</td>
-  </tr>
-</table>
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+  <meta charset="UTF-8">
+  <title>Wine|NewGroup</title>
+</head>
+
+<body>
+  <h3 th:if="${message}">[[${message}]]</h3>
+  <form action="/new_group/regist" method="POST">
+    <p>
+      <label>グループID：</label>
+      <input type="text" name="group_id" placeholder="グループIDを入力">
+    </p>
+    <p>
+      <label>グループ名：</label>
+      <input type="text" name="group_name" placeholder="グループ名を入力">
+    </p>
+    <p>
+      <label>パスワード：</label>
+      <input type="password" name="group_pwd_1" placeholder="パスワードを入力">
+    </p>
+    <p>
+      <label>パスワード再入力：</label>
+      <input type="password" name="group_pwd_2" placeholder="パスワードを再入力">
+    </p>
+    <p>
+      <input type="submit" name="new_group" value="登録">
+    </p>
+  </form>
+</body>
+
+</html>
