@@ -43,7 +43,7 @@ public class NewGroupController {
     Group group = new Group();
     group.setGroup_id(group_id);
     group.setGroup_name(group_name);
-    group.setGroup_pwd(group_pwd_1);
+    group.setCryptedGroupPwd(group_pwd_1);
 
     groupMapper.insertGroup(group);
     return "group_registered.html";

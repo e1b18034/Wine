@@ -1,5 +1,7 @@
 package oit.is.beef_good.wine.model;
 
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+
 public class Group {
   private String group_id;
   private String group_name;
@@ -27,5 +29,9 @@ public class Group {
 
   public void setGroup_pwd(String group_pwd) {
     this.group_pwd = group_pwd;
+  }
+
+  public void setCryptedGroupPwd(String group_pwd) {
+    this.group_pwd = new BCryptPasswordEncoder().encode(group_pwd);
   }
 }
