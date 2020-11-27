@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+  <meta charset="UTF-8">
+  <title>Wine|EntryGroup</title>
+</head>
+
+<body>
+  <h3 th:if="${message}">[[${message}]]</h3>
+  <form action="/entry_group/entry" method="POST">
+    <p>
+    <label>グループID：</label>
+    <input type="text" name="group_id" placeholder="グループIDを入力">
+    </p>
+    <p>
+      <label>パスワード：</label>
+      <input type="password" name="group_pwd" placeholder="パスワードを入力">
+    </p>
+    <p>
+      <input type="submit" name="entry_group" value="参加">
+    </p>
+    </form>
+</body>
+
+
+
+
+</html>
