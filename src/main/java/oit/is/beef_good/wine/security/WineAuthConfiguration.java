@@ -1,5 +1,8 @@
 package oit.is.beef_good.wine.security;
 
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
@@ -9,20 +12,26 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
+import oit.is.beef_good.wine.model.User;
+import oit.is.beef_good.wine.model.UserMapper;
+
 @Configuration
 @EnableWebSecurity
 public class WineAuthConfiguration extends WebSecurityConfigurerAdapter {
+  @Autowired
+  private UserMapper userMapper;
 
   /**
    * 誰がログインできるか(認証処理)
    */
   @Override
   protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-
     // user1 pwd11101624
-    auth.inMemoryAuthentication().withUser("user1")
-        .password("$2y$10$lU.sJhPia8UQtiigHIMhEOqYYsKDgMe0wxJxuEMAO2MpMGKsqMs3O").roles("USER");
 
+    List<User> users = this.userMapper.getAllUsers();
+    for (User user : users) {
+      auth.inMemoryAuthentication().withUser(user.getUser_id()).password(user.getUser_pwd()).roles("USER");
+    }
   }
 
   @Bean
