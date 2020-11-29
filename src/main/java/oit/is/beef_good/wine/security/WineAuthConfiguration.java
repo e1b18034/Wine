@@ -27,7 +27,6 @@ public class WineAuthConfiguration extends WebSecurityConfigurerAdapter {
   @Override
   protected void configure(AuthenticationManagerBuilder auth) throws Exception {
     // user1 pwd11101624
-
     List<User> users = this.userMapper.getAllUsers();
     for (User user : users) {
       auth.inMemoryAuthentication().withUser(user.getUser_id()).password(user.getUser_pwd()).roles("USER");
@@ -53,6 +52,7 @@ public class WineAuthConfiguration extends WebSecurityConfigurerAdapter {
     // antMatchers()の他にanyRequest()と書くとあらゆるアクセス先を表現できる
     // authenticated()の代わりにpermitAll()と書くと認証処理が不要であることを示す
     http.authorizeRequests().antMatchers("/chat_page/**").authenticated();
+    // http.authorizeRequests().anyRequest().permitAll();
 
     // Spring Securityの機能を利用してログアウト．ログアウト時は http://localhost:8000/ に戻る
     http.logout().logoutSuccessUrl("/");
