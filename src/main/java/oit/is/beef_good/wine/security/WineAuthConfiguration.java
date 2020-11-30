@@ -52,7 +52,6 @@ public class WineAuthConfiguration extends WebSecurityConfigurerAdapter {
     // antMatchers()の他にanyRequest()と書くとあらゆるアクセス先を表現できる
     // authenticated()の代わりにpermitAll()と書くと認証処理が不要であることを示す
     http.authorizeRequests().antMatchers("/chat_page/**").authenticated();
-    http.authorizeRequests().antMatchers("/new_user/**").authenticated();
     http.authorizeRequests().antMatchers("/new_group/**").authenticated();
     http.authorizeRequests().antMatchers("/entry_group/**").authenticated();
     // http.authorizeRequests().anyRequest().permitAll();
