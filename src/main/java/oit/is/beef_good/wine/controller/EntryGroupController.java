@@ -1,7 +1,5 @@
 package oit.is.beef_good.wine.controller;
 
-import java.security.Principal;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
@@ -13,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import oit.is.beef_good.wine.model.BelongMapper;
 import oit.is.beef_good.wine.model.GroupMapper;
+import oit.is.beef_good.wine.security.WineAuthentication;
 
 @Controller
 @RequestMapping("/entry_group")
@@ -25,13 +24,15 @@ public class EntryGroupController {
 
   @GetMapping("")
   public String page() {
+    if (!WineAuthentication.isAuthenticated()) {
+      return WineAuthentication.authenticate("/entry_group");
+    }
     return "entry_group.html";
   }
 
   // テスト用グループ ID: group1, pwd: lec07trial
   @PostMapping("/entry")
-  public String entry(@RequestParam String group_id, @RequestParam String group_pwd, Principal principal,
-      ModelMap model) {
+  public String entry(@RequestParam String group_id, @RequestParam String group_pwd, ModelMap model) {
     if (group_id.equals("") || group_pwd.equals("")) {
       model.addAttribute("message", "全ての情報を入力してください");
       return "entry_group.html";
@@ -47,7 +48,7 @@ public class EntryGroupController {
       return "entry_group.html";
     }
 
-    String user_id = principal.getName();
+    String user_id = WineAuthentication.getLoggedinUserId();
     if (this.belongMapper.isExist(group_id, user_id) == 1) {
       model.addAttribute("message", "既にそのグループに所属しています");
       return "entry_group.html";

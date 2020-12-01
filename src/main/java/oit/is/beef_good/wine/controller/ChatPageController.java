@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import oit.is.beef_good.wine.model.User;
 import oit.is.beef_good.wine.model.UserMapper;
+import oit.is.beef_good.wine.security.WineAuthentication;
 
 @Controller
 @RequestMapping("/chat_page")
@@ -19,6 +20,10 @@ public class ChatPageController {
 
   @GetMapping("")
   public String chatPage(ModelMap model) {
+    if (!WineAuthentication.isAuthenticated()) {
+      return WineAuthentication.authenticate("/chat_page");
+    }
+
     List<User> users = usermapper.getAllUsers();
     model.addAttribute("users", users);
     return "chat_page.html";

@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import oit.is.beef_good.wine.model.Group;
 import oit.is.beef_good.wine.model.GroupMapper;
+import oit.is.beef_good.wine.security.WineAuthentication;
 
 @Controller
 @RequestMapping("/new_group")
@@ -19,6 +20,9 @@ public class NewGroupController {
 
   @GetMapping("")
   public String page() {
+    if (!WineAuthentication.isAuthenticated()) {
+      return WineAuthentication.authenticate("/new_group");
+    }
     return "new_group_page.html";
   }
 
