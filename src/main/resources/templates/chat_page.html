@@ -8,7 +8,7 @@
 </head>
 
 <body>
-  <p><a href="/logout">ログアウト</a></p>
+  <p><a href="/login_user/logout">ログアウト</a></p>
   <table th:if="${users}" border="1">
     <tr th:each="user:${users}">
       <td>[[${user.user_id}]]</td>

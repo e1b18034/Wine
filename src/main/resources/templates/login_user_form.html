@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+  <meta charset="UTF-8">
+  <title>Wine | Login</title>
+</head>
+
+<body>
+  <h2>ユーザ認証フォーム</h2>
+  <h3 th:if="${message}">[[${message}]]</h3>
+  <form action="/login_user/login" method="POST">
+    <p>
+      <label>ユーザID: </label>
+      <input type="text" name="user_id" placeholder="ユーザID">
+    </p>
+    <p>
+      <label>パスワード: </label>
+      <input type="password" name="user_pwd" placeholder="パスワード">
+    </p>
+    <p th:if="${_csrf}">
+      <input type="hidden" name="_csrf" id="_csrf">
+      <script>
+        window.onload = () => {
+          let obj = document.getElementById("_csrf");
+          obj.setAttribute("value","[[${ _csrf }]]");
+        };
+      </script>
+    </p>
+    <p>
+      <input type="submit" name="login" value="ログイン">
+    </p>
+  </form>
+</body>
+
+</html>
