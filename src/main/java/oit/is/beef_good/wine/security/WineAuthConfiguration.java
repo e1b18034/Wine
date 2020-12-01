@@ -39,9 +39,6 @@ public class WineAuthConfiguration extends WebSecurityConfigurerAdapter {
    */
   @Override
   protected void configure(HttpSecurity http) throws Exception {
-    http.authorizeRequests().anyRequest().permitAll();
-    http.logout().logoutSuccessUrl("/");
-
     http.csrf().disable();
     http.headers().frameOptions().disable();
 
