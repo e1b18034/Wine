@@ -8,14 +8,23 @@
 </head>
 
 <body>
+  <div th:if="${chat_list}">
+    <p th:each="chat : ${chat_list}">
+      [[${chat}]]
+    </p>
+  </div>
+
+  <form action="/chat_page/send" method="post">
+    <p>
+      <textarea name="chat"></textarea>
+    </p>
+    <p>
+      <input type="submit" value="送信">
+    </p>
+
+  </form>
+
   <p><a href="/logout">ログアウト</a></p>
-  <table th:if="${users}" border="1">
-    <tr th:each="user:${users}">
-      <td>[[${user.user_id}]]</td>
-      <td>[[${user.user_name}]]</td>
-      <td>[[${user.user_pwd}]]</td>
-    </tr>
-  </table>
 </body>
 
 </html>
