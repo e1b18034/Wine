@@ -10,7 +10,7 @@
 <body>
   <div th:if="${chat_list}">
     <p th:each="chat : ${chat_list}">
-      [[${chat}]]
+      [[${chat.user_id}]]：[[${chat.message}]]
     </p>
   </div>
 
@@ -24,7 +24,9 @@
 
   </form>
 
-  <p><a href="/logout">ログアウト</a></p>
+  <p><a href="/chat_page">更新</a></p>
+
+  <p><a href="/login_user/logout">ログアウト</a></p>
 </body>
 
 </html>
