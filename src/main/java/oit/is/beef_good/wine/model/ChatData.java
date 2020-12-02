@@ -4,6 +4,7 @@ public class ChatData {
   private String user_id;
   private String message;
 
+
   public ChatData(String user_id, String message) {
     this.user_id = user_id;
     this.message = message;
@@ -16,4 +17,5 @@ public class ChatData {
   public String getUser_id() {
     return user_id;
   }
+
 }

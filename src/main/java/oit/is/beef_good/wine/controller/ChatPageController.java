@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import oit.is.beef_good.wine.model.BelongMapper;
 import oit.is.beef_good.wine.model.Chat;
 import oit.is.beef_good.wine.model.ChatData;
 import oit.is.beef_good.wine.security.WineAuthentication;
@@ -20,11 +21,18 @@ public class ChatPageController {
   @Autowired
   private Chat chat;
 
+  @Autowired
+  private BelongMapper belongMapper;
+
   @GetMapping("")
   public String chatPage(ModelMap model) {
     if (!WineAuthentication.isAuthenticated()) {
       return WineAuthentication.authenticate("/chat_page");
     }
+
+    String user_id = WineAuthentication.getLoggedinUserId();
+    List<String> groupList = belongMapper.getBelongingGroupId(user_id);
+    model.addAttribute("group_list", groupList);
 
     List<ChatData> chatList = chat.getAllChatData();
     model.addAttribute("chat_list", chatList);
@@ -40,6 +48,9 @@ public class ChatPageController {
 
     String user_id = WineAuthentication.getLoggedinUserId();
     this.chat.addChatData(user_id, chat);
+
+    List<String> groupList = belongMapper.getBelongingGroupId(user_id);
+    model.addAttribute("group_list", groupList);
 
     List<ChatData> chatList = this.chat.getAllChatData();
     model.addAttribute("chat_list", chatList);

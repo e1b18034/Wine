@@ -8,6 +8,14 @@
 </head>
 
 <body>
+  <div th:if="${group_list}">
+    <p th:each="group : ${group_list}">
+      [[${group}]]
+    </p>
+
+  </div>
+  <hr>
+
   <div th:if="${chat_list}">
     <p th:each="chat : ${chat_list}">
       [[${chat.user_id}]]：[[${chat.message}]]
