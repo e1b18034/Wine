@@ -10,7 +10,9 @@
 <body>
   <div th:if="${group_list}">
     <p th:each="group : ${group_list}">
-      [[${group}]]
+      <a th:href="@{'/chat_page?group_id=' + ${group}}">
+        [[${group}]]
+      </a>
     </p>
 
   </div>
