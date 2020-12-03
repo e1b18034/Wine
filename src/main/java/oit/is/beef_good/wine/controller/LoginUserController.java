@@ -24,7 +24,7 @@ public class LoginUserController {
 
   @GetMapping("")
   public String page(@RequestParam String request, ModelMap model, HttpSession session) {
-    if (WineAuthentication.isAuthenticated()) {
+    if (new WineAuthentication(session).isAuthenticated()) {
       return "redirect:" + request;
     }
 
@@ -49,7 +49,7 @@ public class LoginUserController {
       return "redirect:/login_user?request=" + this.request;
     }
 
-    if (!new WineAuthentication(this.userMapper).authenticateUser(user_id, user_pwd)) {
+    if (!new WineAuthentication(session).authenticateUser(this.userMapper, user_id, user_pwd)) {
       model.addAttribute("message", "ユーザ情報が間違っています");
       return "redirect:/login_user?request=" + this.request;
     }
@@ -61,8 +61,8 @@ public class LoginUserController {
   }
 
   @GetMapping("/logout")
-  public String logout() {
-    WineAuthentication.logout();
+  public String logout(HttpSession session) {
+    new WineAuthentication(session).logout();
     this.request = "";
     return "redirect:/";
   }

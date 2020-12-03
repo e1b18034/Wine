@@ -1,5 +1,7 @@
 package oit.is.beef_good.wine.controller;
 
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -19,8 +21,8 @@ public class NewGroupController {
   private GroupMapper groupMapper;
 
   @GetMapping("")
-  public String page() {
-    if (!WineAuthentication.isAuthenticated()) {
+  public String page(HttpSession httpSession) {
+    if (!new WineAuthentication(httpSession).isAuthenticated()) {
       return WineAuthentication.authenticate("/new_group");
     }
     return "new_group_page.html";
@@ -28,7 +30,11 @@ public class NewGroupController {
 
   @PostMapping("/regist")
   public String regist(@RequestParam String group_id, @RequestParam String group_name, @RequestParam String group_pwd_1,
-      @RequestParam String group_pwd_2, ModelMap model) {
+      @RequestParam String group_pwd_2, ModelMap model, HttpSession httpSession) {
+    if (!new WineAuthentication(httpSession).isAuthenticated()) {
+      return WineAuthentication.authenticate("/new_group");
+    }
+
     if (group_id.equals("") || group_name.equals("") || group_pwd_1.equals("") || group_pwd_2.equals("")) {
       model.addAttribute("message", "全ての情報を入力してください");
       return "new_group_page.html";
