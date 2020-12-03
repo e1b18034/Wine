@@ -24,18 +24,33 @@ public class ChatPageController {
   @Autowired
   private BelongMapper belongMapper;
 
-  @GetMapping("")
-  public String chatPage(ModelMap model) {
-    if (!WineAuthentication.isAuthenticated()) {
-      return WineAuthentication.authenticate("/chat_page");
-    }
-
+  private void commonProcess(ModelMap model) {
     String user_id = WineAuthentication.getLoggedinUserId();
     List<String> groupList = belongMapper.getBelongingGroupId(user_id);
     model.addAttribute("group_list", groupList);
 
     List<ChatData> chatList = chat.getAllChatData();
     model.addAttribute("chat_list", chatList);
+  }
+
+  @GetMapping("")
+  public String chatPage(ModelMap model) {
+    if (!WineAuthentication.isAuthenticated()) {
+      return WineAuthentication.authenticate("/chat_page");
+    }
+
+    this.commonProcess(model);
+
+    return "chat_page.html";
+  }
+
+  @GetMapping("/group_chat")
+  public String groupChat(@RequestParam String group_id, ModelMap model) {
+    if (!WineAuthentication.isAuthenticated()) {
+      return WineAuthentication.authenticate("/chat_page");
+    }
+
+    this.commonProcess(model);
 
     return "chat_page.html";
   }
@@ -49,11 +64,7 @@ public class ChatPageController {
     String user_id = WineAuthentication.getLoggedinUserId();
     this.chat.addChatData(user_id, chat);
 
-    List<String> groupList = belongMapper.getBelongingGroupId(user_id);
-    model.addAttribute("group_list", groupList);
-
-    List<ChatData> chatList = this.chat.getAllChatData();
-    model.addAttribute("chat_list", chatList);
+    this.commonProcess(model);
 
     return "chat_page.html";
   }
