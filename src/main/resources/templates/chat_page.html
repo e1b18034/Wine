@@ -10,8 +10,34 @@
       const group_id = "[[${group_id}]]";
       var obj = document.getElementById("group_id");
       obj.setAttribute("value",group_id);
-    };
 
+      getChatList(group_id);
+    }
+
+    function getChatList(group_id) {
+      // イベント
+      let sse = new EventSource("/chat_page/async_update?group_id=" + group_id);
+      // データ受信
+      sse.onmessage = function (event) {
+        // チャットエリア取得
+        let chatArea = document.getElementById("chat_area");
+        // チャットエリア内をクリア
+        while (chatArea.firstChild) {
+          chatArea.removeChild(chatArea.firstChild);
+        }
+
+        // データをJSON形式で取得
+        let chatList = JSON.parse(event.data);
+        // チャットデータを全て出力
+        Array.from(chatList).forEach(chat => {
+          // 行を作成
+          let line = document.createElement("p");
+          line.textContent = chat.user_id + "：" + chat.message;
+          // 行を追加
+          chatArea.appendChild(line);
+        });
+      };
+    }
   </script>
 </head>
 
@@ -26,11 +52,7 @@
   </div>
   <hr>
 
-  <div th:if="${chat_list}">
-    <p th:each="chat : ${chat_list}">
-      [[${chat.user_id}]]：[[${chat.message}]]
-    </p>
-  </div>
+  <div id="chat_area"></div>
 
   <form action="/chat_page/send" method="post">
     <p>
@@ -39,7 +61,7 @@
     <p th:if="${group_id}">
       <input type="hidden" name="group_id" id="group_id">
       <script>
-        setGroupId();
+        window.onload = setGroupId;
       </script>
     </p>
 
