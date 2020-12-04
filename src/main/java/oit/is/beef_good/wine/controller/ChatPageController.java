@@ -31,8 +31,6 @@ public class ChatPageController {
     List<String> groupList = belongMapper.getBelongingGroupId(user_id);
     model.addAttribute("group_list", groupList);
 
-    List<ChatData> chatList = chat.getAllChatData();
-    model.addAttribute("chat_list", chatList);
   }
 
   @GetMapping("")
@@ -53,21 +51,25 @@ public class ChatPageController {
     }
 
     this.commonProcess(model, session);
+    List<ChatData> chatList = chat.getAllChatData(group_id);
+    model.addAttribute("chat_list", chatList);
+
+    model.addAttribute("group_id", group_id);
 
     return "chat_page.html";
   }
 
   @PostMapping("/send")
-  public String sendMessage(@RequestParam String chat, ModelMap model, HttpSession session) {
+  public String sendMessage(@RequestParam String chat, @RequestParam String group_id, ModelMap model,
+      HttpSession session) {
     if (!new WineAuthentication(session).isAuthenticated()) {
       return WineAuthentication.authenticate("/chat_page");
     }
 
     String user_id = new WineAuthentication(session).getUserId();
-    this.chat.addChatData(user_id, chat);
+    this.chat.addChatData(user_id, chat, group_id);
 
-    this.commonProcess(model, session);
 
-    return "chat_page.html";
+    return "redirect:/chat_page/group_chat?group_id="+group_id;
   }
 }

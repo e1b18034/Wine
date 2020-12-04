@@ -5,12 +5,20 @@
   <meta charset="UTF-8">
 
   <title>Wine|chat_page</title>
+  <script>
+    function setGroupId() {
+      const group_id = "[[${group_id}]]";
+      var obj = document.getElementById("group_id");
+      obj.setAttribute("value",group_id);
+    };
+
+  </script>
 </head>
 
 <body>
   <div th:if="${group_list}">
     <p th:each="group : ${group_list}">
-      <a th:href="@{'/chat_page?group_id=' + ${group}}">
+      <a th:href="@{'/chat_page/group_chat?group_id=' + ${group}}">
         [[${group}]]
       </a>
     </p>
@@ -28,6 +36,13 @@
     <p>
       <textarea name="chat"></textarea>
     </p>
+    <p th:if="${group_id}">
+      <input type="hidden" name="group_id" id="group_id">
+      <script>
+        setGroupId();
+      </script>
+    </p>
+
     <p>
       <input type="submit" value="送信">
     </p>
