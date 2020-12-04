@@ -2,6 +2,8 @@ package oit.is.beef_good.wine.controller;
 
 import java.util.List;
 
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -24,8 +26,8 @@ public class ChatPageController {
   @Autowired
   private BelongMapper belongMapper;
 
-  private void commonProcess(ModelMap model) {
-    String user_id = WineAuthentication.getLoggedinUserId();
+  private void commonProcess(ModelMap model, HttpSession session) {
+    String user_id = new WineAuthentication(session).getUserId();
     List<String> groupList = belongMapper.getBelongingGroupId(user_id);
     model.addAttribute("group_list", groupList);
 
@@ -34,37 +36,37 @@ public class ChatPageController {
   }
 
   @GetMapping("")
-  public String chatPage(ModelMap model) {
-    if (!WineAuthentication.isAuthenticated()) {
+  public String chatPage(ModelMap model, HttpSession session) {
+    if (!new WineAuthentication(session).isAuthenticated()) {
       return WineAuthentication.authenticate("/chat_page");
     }
 
-    this.commonProcess(model);
+    this.commonProcess(model, session);
 
     return "chat_page.html";
   }
 
   @GetMapping("/group_chat")
-  public String groupChat(@RequestParam String group_id, ModelMap model) {
-    if (!WineAuthentication.isAuthenticated()) {
+  public String groupChat(@RequestParam String group_id, ModelMap model, HttpSession session) {
+    if (!new WineAuthentication(session).isAuthenticated()) {
       return WineAuthentication.authenticate("/chat_page");
     }
 
-    this.commonProcess(model);
+    this.commonProcess(model, session);
 
     return "chat_page.html";
   }
 
   @PostMapping("/send")
-  public String sendMessage(@RequestParam String chat, ModelMap model) {
-    if (!WineAuthentication.isAuthenticated()) {
+  public String sendMessage(@RequestParam String chat, ModelMap model, HttpSession session) {
+    if (!new WineAuthentication(session).isAuthenticated()) {
       return WineAuthentication.authenticate("/chat_page");
     }
 
-    String user_id = WineAuthentication.getLoggedinUserId();
+    String user_id = new WineAuthentication(session).getUserId();
     this.chat.addChatData(user_id, chat);
 
-    this.commonProcess(model);
+    this.commonProcess(model, session);
 
     return "chat_page.html";
   }
