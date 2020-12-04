@@ -11,11 +11,12 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.mvc.method.annotation.SseEmitter;
 
 import oit.is.beef_good.wine.model.BelongMapper;
 import oit.is.beef_good.wine.model.Chat;
-import oit.is.beef_good.wine.model.ChatData;
 import oit.is.beef_good.wine.security.WineAuthentication;
+import oit.is.beef_good.wine.service.AsyncChat;
 
 @Controller
 @RequestMapping("/chat_page")
@@ -26,11 +27,13 @@ public class ChatPageController {
   @Autowired
   private BelongMapper belongMapper;
 
+  @Autowired
+  private AsyncChat asyncChat;
+
   private void commonProcess(ModelMap model, HttpSession session) {
     String user_id = new WineAuthentication(session).getUserId();
     List<String> groupList = belongMapper.getBelongingGroupId(user_id);
     model.addAttribute("group_list", groupList);
-
   }
 
   @GetMapping("")
@@ -51,12 +54,21 @@ public class ChatPageController {
     }
 
     this.commonProcess(model, session);
-    List<ChatData> chatList = chat.getAllChatData(group_id);
-    model.addAttribute("chat_list", chatList);
 
     model.addAttribute("group_id", group_id);
 
     return "chat_page.html";
+  }
+
+  @GetMapping("/async_update")
+  public SseEmitter asyncGroupChat(@RequestParam String group_id, HttpSession session) {
+    final SseEmitter emitter = new SseEmitter();
+
+    if (new WineAuthentication(session).isAuthenticated()) {
+      this.asyncChat.update(emitter, group_id);
+    }
+
+    return emitter;
   }
 
   @PostMapping("/send")
@@ -69,7 +81,6 @@ public class ChatPageController {
     String user_id = new WineAuthentication(session).getUserId();
     this.chat.addChatData(user_id, chat, group_id);
 
-
-    return "redirect:/chat_page/group_chat?group_id="+group_id;
+    return "redirect:/chat_page/group_chat?group_id=" + group_id;
   }
 }
