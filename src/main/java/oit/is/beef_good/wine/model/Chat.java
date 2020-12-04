@@ -1,20 +1,27 @@
 package oit.is.beef_good.wine.model;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.stereotype.Component;
 
 @Component
 public class Chat {
-  private List<ChatData> chatList = new ArrayList<>();
+  private Map<String, List<ChatData>> chatListMap = new HashMap<>();
 
-  public List<ChatData> getAllChatData() {
-    return chatList;
+  public List<ChatData> getAllChatData(String group_id) {
+    return chatListMap.get(group_id);
   }
 
-  public void addChatData(String user_id, String message) {
+  public void addChatData(String user_id, String message, String group_id) {
     ChatData chatData = new ChatData(user_id, message);
-    chatList.add(chatData);
+    try {
+      chatListMap.get(group_id).add(chatData);
+    } catch (NullPointerException e) {
+      chatListMap.put(group_id, new ArrayList<>());
+      chatListMap.get(group_id).add(chatData);
+    }
   }
 }
