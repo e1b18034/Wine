@@ -65,7 +65,12 @@ public class ChatPageController {
     final SseEmitter emitter = new SseEmitter();
 
     if (new WineAuthentication(session).isAuthenticated()) {
-      this.asyncChat.update(emitter, group_id);
+      String user_id = new WineAuthentication(session).getUserId();
+      if (this.belongMapper.isExist(group_id, user_id) == 1) {
+        this.asyncChat.update(emitter, group_id);
+      } else {
+        this.asyncChat.error(emitter);
+      }
     }
 
     return emitter;
@@ -79,8 +84,16 @@ public class ChatPageController {
     }
 
     String user_id = new WineAuthentication(session).getUserId();
-    this.chat.addChatData(user_id, chat, group_id);
+    if (this.belongMapper.isExist(group_id, user_id) == 1) {
+      this.chat.addChatData(user_id, chat, group_id);
+    } else {
+      model.addAttribute("message", "所属していないグループにメッセージを送信することはできません");
+    }
 
-    return "redirect:/chat_page/group_chat?group_id=" + group_id;
+    this.commonProcess(model, session);
+
+    model.addAttribute("group_id", group_id);
+
+    return "chat_page.html";
   }
 }

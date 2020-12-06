@@ -54,6 +54,7 @@
 
   <div id="chat_area"></div>
 
+  <h3 th:if="${message}">[[${message}]]</h3>
   <form action="/chat_page/send" method="post">
     <p>
       <textarea name="chat"></textarea>
