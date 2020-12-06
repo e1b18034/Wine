@@ -38,4 +38,9 @@ public class AsyncChat {
       emitter.complete();
     }
   }
+
+  @Async
+  public void error(SseEmitter emitter) {
+    emitter.complete();
+  }
 }
