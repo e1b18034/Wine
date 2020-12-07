@@ -40,18 +40,22 @@ public class LoginUserController {
   public String login(@RequestParam String user_id, @RequestParam String user_pwd, @RequestParam String _csrf,
       ModelMap model, HttpSession session) {
     if (!new BCryptPasswordEncoder().matches(session.getId(), _csrf)) {
+      _csrf = new BCryptPasswordEncoder().encode(session.getId());
+      model.addAttribute("_csrf", _csrf);
       model.addAttribute("message", "フォームのエラーです");
-      return "redirect:/login_user?request=" + this.request;
+      return "login_user_form.html";
     }
 
     if (user_id.equals("") || user_pwd.equals("")) {
       model.addAttribute("message", "全ての情報を入力してください");
-      return "redirect:/login_user?request=" + this.request;
+      model.addAttribute("_csrf", _csrf);
+      return "login_user_form.html";
     }
 
     if (!new WineAuthentication(session).authenticateUser(this.userMapper, user_id, user_pwd)) {
       model.addAttribute("message", "ユーザ情報が間違っています");
-      return "redirect:/login_user?request=" + this.request;
+      model.addAttribute("_csrf", _csrf);
+      return "login_user_form.html";
     }
 
     if (this.request.equals("")) {
