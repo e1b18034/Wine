@@ -15,3 +15,10 @@ CREATE TABLE belong (
   user_id CHAR REFERENCES user (user_id),
   PRIMARY KEY (group_id, user_id)
 );
+
+CREATE TABLE friend (
+  user_id CHAR REFERENCES user (user_id),
+  friend_id CHAR REFERENCES user(user_id),
+  status BOOLEAN NOT NULL,
+  PRIMARY KEY (user_id,friend_id)
+);
