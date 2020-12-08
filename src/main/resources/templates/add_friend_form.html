@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+  <meta charset="UTF-8">
+  <title>Wine|add friend form</title>
+</head>
+
+<body>
+  <div th:if="${friends}">
+    <ul th:each="friend : ${friends}">
+      <li>[[${friend.user_id}]]</li>
+      <li>[[${friend.friend_id}]]</li>
+      <li>[[${friend.status}]]</li>
+    </ul>
+  </div>
+</body>
+
+</html>
