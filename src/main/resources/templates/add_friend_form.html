@@ -7,13 +7,26 @@
 </head>
 
 <body>
-  <div th:if="${friends}">
-    <ul th:each="friend : ${friends}">
-      <li>[[${friend.user_id}]]</li>
-      <li>[[${friend.friend_id}]]</li>
-      <li>[[${friend.status}]]</li>
-    </ul>
-  </div>
+  <h2>フレンド登録</h2>
+  <h3 th:if="${message}">[[${message}]]</h3>
+  <form action="/add_friend/add" method="POST">
+    <p>
+      <label>フレンドID：</label>
+      <input type="text" name="friend_id" placeholder="フレンドのユーザIDの入力">
+    </p>
+    <p th:if="${_csrf}">
+      <input type="hidden" name="_csrf" id="_csrf">
+      <script>
+        window.onload = () => {
+          const _csrf = "[[${_csrf}]]";
+          document.getElementById("_csrf").setAttribute("value",_csrf);
+        };
+      </script>
+    </p>
+    <p>
+      <input type="submit" name="add_friend" value="登録">
+    </p>
+  </form>
 </body>
 
 </html>
