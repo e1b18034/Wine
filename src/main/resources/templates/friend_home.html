@@ -11,7 +11,7 @@
   <h1>フレンドチャット | ホーム</h1>
   <div th:if="${friend_list}">
     <p th:each="friend : ${friend_list}">
-      [[${friend}]]
+      <a th:href="@{'/chat_page/friend_chat?friend_id=' + ${friend}}">[[${friend}]]</a>
     </p>
   </div>
 </body>
