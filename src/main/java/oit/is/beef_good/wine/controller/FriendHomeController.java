@@ -25,8 +25,13 @@ public class FriendHomeController {
       return WineAuthentication.authenticate("/friend_home");
     }
 
+    String user_id = new WineAuthentication(session).getUserId();
+
     List<String> friendList = this.friendMapper.getFriendListById("user2");
     model.addAttribute("friend_list", friendList);
+    List<String> requestList = this.friendMapper.getFriendRequestListById(user_id);
+    model.addAttribute("request_list", requestList);
+
     return "friend_home.html";
   }
 }

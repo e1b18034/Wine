@@ -14,6 +14,11 @@
       <a th:href="@{'/chat_page/friend_chat?friend_id=' + ${friend}}">[[${friend}]]</a>
     </p>
   </div>
+  <div th:if="${request_list}">
+    <p th:each="request : ${request_list}">
+      [[${request}]]
+    </p>
+  </div>
 </body>
 
 </html>

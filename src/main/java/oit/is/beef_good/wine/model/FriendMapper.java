@@ -19,4 +19,7 @@ public interface FriendMapper {
 
   @Insert("INSERT INTO friend (user_id, friend_id, status) VALUES(#{user_id}, #{friend_id}, #{status})")
   void insertFriend(Friend friend);
+
+  @Select("SELECT user_id FROM friend WHERE friend_id = #{friend_id} AND status = FALSE")
+  List<String> getFriendRequestListById(String friend_id);
 }
