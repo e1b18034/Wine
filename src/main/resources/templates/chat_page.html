@@ -3,77 +3,26 @@
 
 <head>
   <meta charset="UTF-8">
-
   <title>Wine|chat_page</title>
-  <script>
-    function setGroupId() {
-      const group_id = "[[${group_id}]]";
-      var obj = document.getElementById("group_id");
-      obj.setAttribute("value",group_id);
-
-      getChatList(group_id);
-    }
-
-    function getChatList(group_id) {
-      // イベント
-      let sse = new EventSource("/chat_page/async_update?group_id=" + group_id);
-      // データ受信
-      sse.onmessage = function (event) {
-        // チャットエリア取得
-        let chatArea = document.getElementById("chat_area");
-        // チャットエリア内をクリア
-        while (chatArea.firstChild) {
-          chatArea.removeChild(chatArea.firstChild);
-        }
-
-        // データをJSON形式で取得
-        let chatList = JSON.parse(event.data);
-        // チャットデータを全て出力
-        Array.from(chatList).forEach(chat => {
-          // 行を作成
-          let line = document.createElement("p");
-          line.textContent = chat.user_id + "：" + chat.message;
-          // 行を追加
-          chatArea.appendChild(line);
-        });
-      };
-    }
-  </script>
 </head>
 
 <body>
-  <div th:if="${group_list}">
-    <p th:each="group : ${group_list}">
-      <a th:href="@{'/chat_page/group_chat?group_id=' + ${group}}">
-        [[${group}]]
-      </a>
+  <a href="/">戻る</a>
+  <div th:if=${friend_id}>
+    <p th:each="friend : ${friend_id}">
+      <hr>
+    <div id="chat_area"></div>
     </p>
-
   </div>
-  <hr>
 
-  <div id="chat_area"></div>
-
-  <h3 th:if="${message}">[[${message}]]</h3>
-  <form action="/chat_page/send" method="post">
-    <p>
-      <textarea name="chat"></textarea>
-    </p>
-    <p th:if="${group_id}">
-      <input type="hidden" name="group_id" id="group_id">
-      <script>
-        window.onload = setGroupId;
-      </script>
-    </p>
-
+  <form action="" method="POST">
     <p>
       <input type="submit" value="送信">
     </p>
-
+    <p>
+      <textarea name="friend" cols="30" rows="10"></textarea>
+    </p>
   </form>
-
-  <p><a href="/chat_page">更新</a></p>
-
   <p><a href="/login_user/logout">ログアウト</a></p>
 </body>
 
