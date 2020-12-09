@@ -10,14 +10,30 @@
   <p><a href="/">戻る</a></p>
   <h1>フレンドチャット | ホーム</h1>
   <div th:if="${friend_list}">
+    <h2>フレンド</h2>
     <p th:each="friend : ${friend_list}">
       <a th:href="@{'/chat_page/friend_chat?friend_id=' + ${friend}}">[[${friend}]]</a>
     </p>
   </div>
   <div th:if="${request_list}">
-    <p th:each="request : ${request_list}">
-      <a th:href="@{'/friend_home/friend_request?friend_id=' + ${request}}">[[${request}]]</a>
+    <h2>フレンドリクエスト</h2>
+    <p th:each="request : ${request_list}" th:id="${request}" class="friend_request">
+      [[${request}]]
     </p>
+    <script>
+      window.onload = () => {
+        Array.from(document.getElementsByClassName("friend_request")).forEach(request => {
+          request.addEventListener("click",() => {
+            let friend_id = request.getAttribute("id");
+            let confirm_request = confirm("ユーザ(" + friend_id + ")とフレンドになりますか");
+            if (confirm_request) {
+              window.location.href = "/friend_home/friend_request?friend_id=" + friend_id;
+            }
+          });
+        });
+
+      };
+    </script>
   </div>
 </body>
 

@@ -41,7 +41,9 @@ public class FriendHomeController {
     if (!new WineAuthentication(session).isAuthenticated()) {
       return WineAuthentication.authenticate("/friend_home");
     }
-
-    return "friend_home.html";
+    String user_id = new WineAuthentication(session).getUserId();
+    this.friendMapper.insertFriend(user_id, friend_id);
+    this.friendMapper.confirmFriendRequest(friend_id, user_id);
+    return "redirect:/friend_home";
   }
 }

@@ -5,6 +5,7 @@ import java.util.List;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Select;
+import org.apache.ibatis.annotations.Update;
 
 @Mapper
 public interface FriendMapper {
@@ -53,4 +54,7 @@ public interface FriendMapper {
    */
   @Select("SELECT user_id FROM friend WHERE friend_id = #{friend_id} AND status = FALSE")
   List<String> getFriendRequestListById(String friend_id);
+
+  @Update("UPDATE friend SET status = TRUE WHERE user_id = #{user_id} AND friend_id = #{friend_id}")
+  void confirmFriendRequest(String user_id, String friend_id);
 }
