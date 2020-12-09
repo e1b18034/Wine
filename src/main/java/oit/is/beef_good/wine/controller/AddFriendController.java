@@ -83,11 +83,6 @@ public class AddFriendController {
 
     // 登録リクエスト
     this.friendMapper.insertFriendRequest(user_id, friend_id);
-    Friend friend = new Friend();
-    friend.setUser_id(friend_id);
-    friend.setFriend_id(user_id);
-    friend.setStatus(true);
-    this.friendMapper.insertFriend(friend);
 
     // 登録完了画面への遷移
     return "friend_registered.html";
