@@ -96,4 +96,13 @@ public class ChatPageController {
 
     return "chat_page.html";
   }
+
+  @GetMapping("/friend_chat")
+  public String friendChat(@RequestParam String friend_id, HttpSession session, ModelMap model) {
+    if (!new WineAuthentication(session).isAuthenticated()) {
+      return WineAuthentication.authenticate("/chat_page/friend_chat?friend_id=" + friend_id);
+    }
+
+    return "chat_page.html";
+  }
 }
