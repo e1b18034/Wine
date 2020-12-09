@@ -9,6 +9,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import oit.is.beef_good.wine.model.FriendMapper;
 import oit.is.beef_good.wine.security.WineAuthentication;
@@ -31,6 +32,15 @@ public class FriendHomeController {
     model.addAttribute("friend_list", friendList);
     List<String> requestList = this.friendMapper.getFriendRequestListById(user_id);
     model.addAttribute("request_list", requestList);
+
+    return "friend_home.html";
+  }
+
+  @GetMapping("/friend_request")
+  public String friendRequest(@RequestParam String friend_id, HttpSession session, ModelMap model) {
+    if (!new WineAuthentication(session).isAuthenticated()) {
+      return WineAuthentication.authenticate("/friend_home");
+    }
 
     return "friend_home.html";
   }

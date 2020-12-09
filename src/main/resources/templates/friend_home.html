@@ -16,7 +16,7 @@
   </div>
   <div th:if="${request_list}">
     <p th:each="request : ${request_list}">
-      [[${request}]]
+      <a th:href="@{'/friend_home/friend_request?friend_id=' + ${request}}">[[${request}]]</a>
     </p>
   </div>
 </body>
