@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import oit.is.beef_good.wine.model.Friend;
 import oit.is.beef_good.wine.model.FriendMapper;
 import oit.is.beef_good.wine.model.UserMapper;
 import oit.is.beef_good.wine.security.WineAuthentication;
@@ -82,7 +83,11 @@ public class AddFriendController {
 
     // 登録リクエスト
     this.friendMapper.insertFriendRequest(user_id, friend_id);
-    this.friendMapper.insertFriendRequest(friend_id, user_id);
+    Friend friend = new Friend();
+    friend.setUser_id(friend_id);
+    friend.setFriend_id(user_id);
+    friend.setStatus(true);
+    this.friendMapper.insertFriend(friend);
 
     // 登録完了画面への遷移
     return "friend_registered.html";
