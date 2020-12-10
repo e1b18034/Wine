@@ -8,11 +8,19 @@
 
 <body>
   <a href="/">戻る</a>
-  <div th:if=${friend_id}>
-    <p th:each="friend : ${friend_id}">
-      <hr>
-    <div id="chat_area"></div>
-    </p>
+
+  <h1 th:if="${receiver}" id="receiver">[[${receiver}]]</h1>
+
+  <div th:if="${chat_list}">
+    <div th:each="chat : ${chat_list}" class="chat_line">
+      <div class="chat_info">
+        <p class="chat_sender">[[${chat.sender}]]</p>
+        <p class="chat_date_time">[[${chat.date_time}]]</p>
+      </div>
+      <div class="chat_data">
+        <p>[[${chat.chat_data}]]</p>
+      </div>
+    </div>
   </div>
 
   <form action="" method="POST">
