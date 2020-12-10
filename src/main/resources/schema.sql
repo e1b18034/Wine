@@ -22,3 +22,12 @@ CREATE TABLE friend (
   status BOOLEAN NOT NULL,
   PRIMARY KEY (user_id,friend_id)
 );
+
+CREATE TABLE friend_chat (
+  id INT IDENTITY(1,1),
+  sender CHAR REFERENCES user (user_id),
+  receiver CHAR REFERENCES user (user_id),
+  date_time CHAR,
+  data_type INT,
+  chat_data CHAR
+);
