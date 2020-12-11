@@ -12,7 +12,7 @@
   <div th:if="${friend_list}">
     <h2>フレンド</h2>
     <p th:each="friend : ${friend_list}">
-      <a th:href="@{'/chat_page/friend_chat?friend_id=' + ${friend}}">[[${friend}]]</a>
+      <a th:href="@{'/chat_page/friend_chat?receiver=' + ${friend}}">[[${friend}]]</a>
     </p>
   </div>
   <div th:if="${request_list}">

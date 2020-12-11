@@ -1,5 +1,7 @@
 package oit.is.beef_good.wine.controller;
 
+import java.time.LocalDateTime;
+import java.util.Date;
 import java.util.List;
 
 import javax.servlet.http.HttpSession;
@@ -17,6 +19,7 @@ import oit.is.beef_good.wine.model.BelongMapper;
 import oit.is.beef_good.wine.model.Chat;
 import oit.is.beef_good.wine.model.ChatData;
 import oit.is.beef_good.wine.model.FriendChatMapper;
+import oit.is.beef_good.wine.model.FriendMapper;
 import oit.is.beef_good.wine.security.WineAuthentication;
 import oit.is.beef_good.wine.service.AsyncChat;
 
@@ -34,6 +37,9 @@ public class ChatPageController {
 
   @Autowired
   private FriendChatMapper friendChatMapper;
+
+  @Autowired
+  private FriendMapper friendMapper;
 
   private void commonProcess(ModelMap model, HttpSession session) {
     String user_id = new WineAuthentication(session).getUserId();
@@ -103,14 +109,58 @@ public class ChatPageController {
   }
 
   @GetMapping("/friend_chat")
-  public String friendChat(@RequestParam String friend_id, HttpSession session, ModelMap model) {
+  public String friendChat(@RequestParam String receiver, HttpSession session, ModelMap model) {
     if (!new WineAuthentication(session).isAuthenticated()) {
-      return WineAuthentication.authenticate("/chat_page/friend_chat?friend_id=" + friend_id);
+      return WineAuthentication.authenticate("/chat_page/friend_chat?receiver=" + receiver);
     }
 
-    List<ChatData> chatList = this.friendChatMapper.getAllFriendChatData();
+    model.addAttribute("receiver", receiver);
+    model.addAttribute("chat_type", "/friend_chat");
 
-    model.addAttribute("chat_list", chatList);
+    return "chat_page.html";
+  }
+
+  @GetMapping("/friend_chat/update")
+  public SseEmitter friendChatUpdate(@RequestParam String receiver, HttpSession session) {
+    final SseEmitter emitter = new SseEmitter();
+
+    WineAuthentication auth = new WineAuthentication(session);
+    if (auth.isAuthenticated()) {
+      String user_id = auth.getUserId();
+      if (this.friendMapper.isExist(user_id, receiver) == 1) {
+        this.asyncChat.updateFriendChat(emitter, user_id, receiver);
+      } else {
+        this.asyncChat.error(emitter);
+      }
+    }
+
+    return emitter;
+  }
+
+  @PostMapping("/friend_chat/send")
+  public String sendFriendChat(@RequestParam String chat_data, @RequestParam String receiver, ModelMap model,
+      HttpSession session) {
+    WineAuthentication auth = new WineAuthentication(session);
+
+    if (!auth.isAuthenticated()) {
+      return WineAuthentication.authenticate("/friend_chat?receiver=" + receiver);
+    }
+
+    String user_id = auth.getUserId();
+    String date_time = LocalDateTime.now().toString();
+    int data_type = ChatData.TYPE_TEXT;
+
+    ChatData chatData = new ChatData();
+    chatData.setSender(user_id);
+    chatData.setReceiver(receiver);
+    chatData.setDate_time(date_time);
+    chatData.setData_type(data_type);
+    chatData.setChat_data(chat_data);
+
+    this.friendChatMapper.insertChatData(chatData);
+
+    model.addAttribute("receiver", receiver);
+    model.addAttribute("chat_type", "/friend_chat");
 
     return "chat_page.html";
   }

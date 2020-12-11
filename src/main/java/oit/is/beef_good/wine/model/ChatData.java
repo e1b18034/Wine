@@ -8,6 +8,8 @@ public class ChatData {
   private int data_type;
   private String chat_data;
 
+  public static final int TYPE_TEXT = 1;
+
   public int getId() {
     return id;
   }
