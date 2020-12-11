@@ -20,12 +20,12 @@ public class Chat {
   }
 
   public void addChatData(String user_id, String message, String group_id) {
-    ChatData chatData = new ChatData(user_id, message);
+    /*ChatData chatData = new ChatData(user_id, message);
     try {
       chatListMap.get(group_id).add(chatData);
     } catch (NullPointerException e) {
       chatListMap.put(group_id, new ArrayList<>());
       chatListMap.get(group_id).add(chatData);
-    }
+    }*/
   }
 }

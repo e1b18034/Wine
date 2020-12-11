@@ -15,6 +15,8 @@ import org.springframework.web.servlet.mvc.method.annotation.SseEmitter;
 
 import oit.is.beef_good.wine.model.BelongMapper;
 import oit.is.beef_good.wine.model.Chat;
+import oit.is.beef_good.wine.model.ChatData;
+import oit.is.beef_good.wine.model.FriendChatMapper;
 import oit.is.beef_good.wine.security.WineAuthentication;
 import oit.is.beef_good.wine.service.AsyncChat;
 
@@ -29,6 +31,9 @@ public class ChatPageController {
 
   @Autowired
   private AsyncChat asyncChat;
+
+  @Autowired
+  private FriendChatMapper friendChatMapper;
 
   private void commonProcess(ModelMap model, HttpSession session) {
     String user_id = new WineAuthentication(session).getUserId();
@@ -102,6 +107,10 @@ public class ChatPageController {
     if (!new WineAuthentication(session).isAuthenticated()) {
       return WineAuthentication.authenticate("/chat_page/friend_chat?friend_id=" + friend_id);
     }
+
+    List<ChatData> chatList = this.friendChatMapper.getAllFriendChatData();
+
+    model.addAttribute("chat_list", chatList);
 
     return "chat_page.html";
   }
