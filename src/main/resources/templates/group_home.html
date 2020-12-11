@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+  <meta charset="UTF-8">
+  <title>Wine|GroupHome</title>
+</head>
+
+<body>
+  <p><a href="/">戻る</a></p>
+  <h1>グループチャット | ホーム</h1>
+  <div th:if="${group_list}">
+    <h2>グループ</h2>
+    <p th:each="group : ${group_list}">
+      <a th:href="@{'/chat_page/group_chat?receiver=' + ${group}}">[[${group}]]</a>
+    </p>
+  </div>
+</body>
+
+</html>
