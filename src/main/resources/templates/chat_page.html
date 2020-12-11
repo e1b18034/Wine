@@ -4,6 +4,43 @@
 <head>
   <meta charset="UTF-8">
   <title>Wine|chat_page</title>
+  <script>
+    const chat_type = "[[${chat_type}]]";
+    const receiver = "[[${receiver}]]";
+
+    window.onload = () => {
+      let sse = new EventSource("/chat_page" + chat_type + "/update?receiver=" + receiver);
+
+      sse.onmessage = (event) => {
+        let dataList = JSON.parse(event.data);
+
+        let chatArea = document.getElementById("chat_area");
+        while (chatArea.firstChild) {
+          chatArea.removeChild(chatArea.firstChild);
+        }
+
+        Array.from(dataList).forEach(chat => {
+          let chatSender = document.createElement("p");
+          chatSender.textContent = chat.sender;
+          let chatDateTime = document.createElement("p");
+          chatDateTime.textContent = chat.date_time;
+
+          let chatInfo = document.createElement("div");
+          chatInfo.appendChild(chatSender);
+          chatInfo.appendChild(chatDateTime);
+
+          let chatData = document.createElement("div");
+          chatData.textContent = chat.chat_data;
+
+          let chatLine = document.createElement("div");
+          chatLine.appendChild(chatInfo);
+          chatLine.appendChild(chatData);
+
+          chatArea.appendChild(chatLine);
+        });
+      };
+    };
+  </script>
 </head>
 
 <body>
@@ -11,27 +48,23 @@
 
   <h1 th:if="${receiver}" id="receiver">[[${receiver}]]</h1>
 
-  <div th:if="${chat_list}">
-    <div th:each="chat : ${chat_list}" class="chat_line">
-      <div class="chat_info">
-        <p class="chat_sender">[[${chat.sender}]]</p>
-        <p class="chat_date_time">[[${chat.date_time}]]</p>
-      </div>
-      <div class="chat_data">
-        <p>[[${chat.chat_data}]]</p>
-      </div>
-    </div>
-  </div>
+  <div id="chat_area"></div>
 
-  <form action="" method="POST">
+  <form th:action="@{'/chat_page' + ${chat_type} + '/send'}" method="POST">
     <p>
       <input type="submit" value="送信">
     </p>
     <p>
-      <textarea name="friend" cols="30" rows="10"></textarea>
+      <textarea name="chat_data" cols="30" rows="10"></textarea>
+    </p>
+    <p>
+      <input type="hidden" name="receiver" th:value="${receiver}">
     </p>
   </form>
-  <p><a href="/login_user/logout">ログアウト</a></p>
+
+  <p>
+    <a href="/login_user/logout">ログアウト</a>
+  </p>
 </body>
 
 </html>
