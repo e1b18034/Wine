@@ -11,7 +11,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import oit.is.beef_good.wine.model.Friend;
 import oit.is.beef_good.wine.model.FriendMapper;
 import oit.is.beef_good.wine.model.UserMapper;
 import oit.is.beef_good.wine.security.WineAuthentication;

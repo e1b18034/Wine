@@ -10,7 +10,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.servlet.mvc.method.annotation.SseEmitter;
 
-import oit.is.beef_good.wine.model.Chat;
 import oit.is.beef_good.wine.model.ChatData;
 import oit.is.beef_good.wine.model.FriendChatMapper;
 import oit.is.beef_good.wine.model.GroupChatMapper;
@@ -18,34 +17,12 @@ import oit.is.beef_good.wine.model.GroupChatMapper;
 @Service
 public class AsyncChat {
   @Autowired
-  private Chat chat;
-
-  @Autowired
   private FriendChatMapper friendChatMapper;
 
   @Autowired
   private GroupChatMapper groupChatMapper;
 
   private final Logger logger = LoggerFactory.getLogger(AsyncChat.class);
-
-  @Transactional
-  private List<ChatData> getChatList(String group_id) {
-    return this.chat.getAllChatData(group_id);
-  }
-
-  @Async
-  public void update(SseEmitter emitter, String group_id) {
-    List<ChatData> chatList = this.getChatList(group_id);
-
-    try {
-      emitter.send(chatList);
-      logger.warn("send data length: " + chatList.size());
-    } catch (Exception e) {
-      logger.warn("send exception: " + e.getClass().getName() + ": " + e.getMessage());
-    } finally {
-      emitter.complete();
-    }
-  }
 
   @Transactional
   public List<ChatData> getFriendChatList(String user_id, String friend_id) {
@@ -66,14 +43,9 @@ public class AsyncChat {
     }
   }
 
-  @Async
-  public void error(SseEmitter emitter) {
-    emitter.complete();
-  }
-
   @Transactional
   public List<ChatData> getGroupChatList(String user_id, String group_id) {
-    return this.groupChatMapper.getAllChatData();
+    return this.groupChatMapper.getChatData(group_id);
   }
 
   @Async
@@ -90,4 +62,8 @@ public class AsyncChat {
     }
   }
 
+  @Async
+  public void error(SseEmitter emitter) {
+    emitter.complete();
+  }
 }
