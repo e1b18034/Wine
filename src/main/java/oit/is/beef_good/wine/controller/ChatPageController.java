@@ -20,6 +20,7 @@ import oit.is.beef_good.wine.model.Chat;
 import oit.is.beef_good.wine.model.ChatData;
 import oit.is.beef_good.wine.model.FriendChatMapper;
 import oit.is.beef_good.wine.model.FriendMapper;
+import oit.is.beef_good.wine.model.GroupChatMapper;
 import oit.is.beef_good.wine.security.WineAuthentication;
 import oit.is.beef_good.wine.service.AsyncChat;
 
@@ -41,6 +42,9 @@ public class ChatPageController {
   @Autowired
   private FriendMapper friendMapper;
 
+  @Autowired
+  private GroupChatMapper groupChatMapper;
+
   private void commonProcess(ModelMap model, HttpSession session) {
     String user_id = new WineAuthentication(session).getUserId();
     List<String> groupList = belongMapper.getBelongingGroupId(user_id);
@@ -59,16 +63,32 @@ public class ChatPageController {
   }
 
   @GetMapping("/group_chat")
-  public String groupChat(@RequestParam String group_id, ModelMap model, HttpSession session) {
+  public String groupChat(@RequestParam String receiver, ModelMap model, HttpSession session) {
     if (!new WineAuthentication(session).isAuthenticated()) {
       return WineAuthentication.authenticate("/chat_page");
     }
 
-    this.commonProcess(model, session);
-
-    model.addAttribute("group_id", group_id);
+    model.addAttribute("receiver", receiver);
+    model.addAttribute("chat_type", "/group_chat");
 
     return "chat_page.html";
+  }
+
+  @GetMapping("/group_chat/update")
+  public SseEmitter groupChatUpdate(@RequestParam String receiver, HttpSession session) {
+    WineAuthentication auth = new WineAuthentication(session);
+    final SseEmitter emitter = new SseEmitter();
+
+    if (auth.isAuthenticated()) {
+      String user_id = auth.getUserId();
+      if (belongMapper.isExist(receiver, user_id) == 1) {
+        asyncChat.updateGroupChat(emitter, user_id, receiver);
+      } else {
+        asyncChat.error(emitter);
+      }
+    }
+
+    return emitter;
   }
 
   @GetMapping("/async_update")

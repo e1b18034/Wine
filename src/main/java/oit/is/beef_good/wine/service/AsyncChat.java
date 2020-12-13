@@ -13,6 +13,7 @@ import org.springframework.web.servlet.mvc.method.annotation.SseEmitter;
 import oit.is.beef_good.wine.model.Chat;
 import oit.is.beef_good.wine.model.ChatData;
 import oit.is.beef_good.wine.model.FriendChatMapper;
+import oit.is.beef_good.wine.model.GroupChatMapper;
 
 @Service
 public class AsyncChat {
@@ -21,6 +22,9 @@ public class AsyncChat {
 
   @Autowired
   private FriendChatMapper friendChatMapper;
+
+  @Autowired
+  private GroupChatMapper groupChatMapper;
 
   private final Logger logger = LoggerFactory.getLogger(AsyncChat.class);
 
@@ -66,4 +70,24 @@ public class AsyncChat {
   public void error(SseEmitter emitter) {
     emitter.complete();
   }
+
+  @Transactional
+  public List<ChatData> getGroupChatList(String user_id, String group_id) {
+    return this.groupChatMapper.getAllChatData();
+  }
+
+  @Async
+  public void updateGroupChat(SseEmitter emitter, String user_id, String group_id) {
+    List<ChatData> chatList = this.getGroupChatList(user_id, group_id);
+
+    try {
+      emitter.send(SseEmitter.event().data(chatList));
+      logger.warn("send data length: " + chatList.size());
+    } catch (Exception e) {
+      logger.warn("send exception: " + e.getClass().getName() + ": " + e.getMessage());
+    } finally {
+      emitter.complete();
+    }
+  }
+
 }
