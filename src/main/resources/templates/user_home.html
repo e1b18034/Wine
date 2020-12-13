@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+  <meta charset="UTF-8">
+  <title>Wine|ユーザホーム</title>
+</head>
+
+<body>
+  <h1 th:if="${user_name}">こんにちは[[${user_name}]]！</h1>
+  <h1>[お品書き一覧]</h1>
+  <p><a href="/group_home">グループホーム</a></p>
+  <p><a href="/friend_home">フレンドホーム</a></p>
+  <p>
+    <a href="/login_user/logout">ログアウト</a>
+  </p>
+</body>
+
+</html>

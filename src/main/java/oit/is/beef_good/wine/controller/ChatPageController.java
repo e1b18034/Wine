@@ -39,15 +39,6 @@ public class ChatPageController {
   @Autowired
   private GroupChatMapper groupChatMapper;
 
-  @GetMapping("")
-  public String chatPage(ModelMap model, HttpSession session) {
-    if (!new WineAuthentication(session).isAuthenticated()) {
-      return WineAuthentication.authenticate("/chat_page");
-    }
-
-    return "chat_page.html";
-  }
-
   @GetMapping("/group_chat")
   public String groupChat(@RequestParam String receiver, ModelMap model, HttpSession session) {
     if (!new WineAuthentication(session).isAuthenticated()) {
