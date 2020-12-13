@@ -31,3 +31,12 @@ CREATE TABLE friend_chat (
   data_type INT,
   chat_data CHAR
 );
+
+CREATE TABLE group_chat (
+  id INT IDENTITY(1,1),
+  sender CHAR REFERENCES user (user_id),
+  receiver CHAR REFERENCES `group` (group_id),
+  date_time CHAR,
+  data_type INT,
+  chat_data CHAR
+);
