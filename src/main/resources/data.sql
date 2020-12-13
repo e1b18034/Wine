@@ -5,3 +5,5 @@ INSERT INTO friend (user_id,friend_id,status) VALUES ('user2', 'user1', TRUE);
 INSERT INTO friend (user_id,friend_id,status) VALUES ('user1', 'user2', TRUE);
 
 INSERT INTO friend_chat (sender,receiver,date_time,data_type,chat_data) VALUES ('user1','user2','2020-12-10',1,'今何してる?');
+
+INSERT INTO group_chat (sender,receiver,date_time,data_type,chat_data) VALUES ('user2','group1','2020-12-13',1,'今日部活休みます');
