@@ -61,6 +61,7 @@ public class LoginUserController {
     if (this.request.equals("")) {
       return "redirect:/";
     }
+    
     return "redirect:" + this.request;
   }
 
