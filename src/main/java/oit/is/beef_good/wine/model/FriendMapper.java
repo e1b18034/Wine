@@ -55,6 +55,22 @@ public interface FriendMapper {
   @Select("SELECT user_id FROM friend WHERE friend_id = #{friend_id} AND status = FALSE")
   List<String> getFriendRequestListById(String friend_id);
 
+  /**
+   * フレンドリクエスト受領
+   *
+   * @param user_id
+   * @param friend_id
+   */
   @Update("UPDATE friend SET status = TRUE WHERE user_id = #{user_id} AND friend_id = #{friend_id}")
   void confirmFriendRequest(String user_id, String friend_id);
+
+  /**
+   * 特定フレンドリクエスト検索
+   * 
+   * @param user_id
+   * @param friend_id
+   * @return
+   */
+  @Select("SELECT COUNT(*) FROM friend WHERE user_id = #{user_id} AND friend_id = #{friend_id} AND status = FALSE")
+  int isExistRequest(String user_id, String friend_id);
 }

@@ -73,6 +73,15 @@ public class AddFriendController {
       return "add_friend_form.html";
     }
 
+    // リクエスト受信済みであるか
+    if (this.friendMapper.isExistRequest(friend_id, user_id) == 1) {
+      this.friendMapper.insertFriend(user_id, friend_id);
+      this.friendMapper.confirmFriendRequest(friend_id, user_id);
+
+      // 登録完了画面への遷移
+      return "friend_registered.html";
+    }
+
     // 既に登録済みかチェック
     if (this.friendMapper.isExist(user_id, friend_id) == 1) {
       model.addAttribute("message", "既にフレンドです");
