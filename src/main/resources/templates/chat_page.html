@@ -48,6 +48,8 @@
 
   <h1 th:if="${receiver}" id="receiver">[[${receiver}]]</h1>
 
+  <h2 th:if="${message}">[[${message}]]</h2>
+  
   <div id="chat_area"></div>
 
   <form th:action="@{'/chat_page' + ${chat_type} + '/send'}" method="POST">

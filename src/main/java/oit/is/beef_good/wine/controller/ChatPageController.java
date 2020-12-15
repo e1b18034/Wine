@@ -47,6 +47,7 @@ public class ChatPageController {
 
     model.addAttribute("receiver", receiver);
     model.addAttribute("chat_type", "/group_chat");
+    model.addAttribute("message", "テストメッセージ");
 
     return "chat_page.html";
   }
@@ -104,6 +105,7 @@ public class ChatPageController {
 
     model.addAttribute("receiver", receiver);
     model.addAttribute("chat_type", "/friend_chat");
+    model.addAttribute("message", "テストメッセージ");
 
     return "chat_page.html";
   }
