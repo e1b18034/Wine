@@ -4,6 +4,7 @@ import java.time.LocalDateTime;
 
 import javax.servlet.http.HttpSession;
 
+import org.apache.logging.log4j.message.Message;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -47,7 +48,6 @@ public class ChatPageController {
 
     model.addAttribute("receiver", receiver);
     model.addAttribute("chat_type", "/group_chat");
-    model.addAttribute("message", "テストメッセージ");
 
     return "chat_page.html";
   }
@@ -78,7 +78,15 @@ public class ChatPageController {
       return WineAuthentication.authenticate("/chat_page/group_chat?receiver=" + receiver);
     }
 
+    model.addAttribute("receiver", receiver);
+    model.addAttribute("chat_type", "/group_chat");
+
     String user_id = auth.getUserId();
+    if (belongMapper.isExist(receiver, user_id) == 0) {
+      model.addAttribute("message", "所属していないグループでのチャットはできません");
+      return "chat_page.html";
+    }
+
     String date_time = LocalDateTime.now().toString();
     int data_type = ChatData.TYPE_TEXT;
 
@@ -90,9 +98,6 @@ public class ChatPageController {
     chatData.setChat_data(chat_data);
 
     this.groupChatMapper.insertChatData(chatData);
-
-    model.addAttribute("receiver", receiver);
-    model.addAttribute("chat_type", "/group_chat");
 
     return "chat_page.html";
   }
