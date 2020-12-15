@@ -105,7 +105,6 @@ public class ChatPageController {
 
     model.addAttribute("receiver", receiver);
     model.addAttribute("chat_type", "/friend_chat");
-    model.addAttribute("message", "テストメッセージ");
 
     return "chat_page.html";
   }
@@ -136,7 +135,15 @@ public class ChatPageController {
       return WineAuthentication.authenticate("/chat_page/friend_chat?receiver=" + receiver);
     }
 
+    model.addAttribute("receiver", receiver);
+    model.addAttribute("chat_type", "/friend_chat");
+
     String user_id = auth.getUserId();
+    if (friendMapper.isExist(user_id, receiver) == 0) {
+      model.addAttribute("message", "フレンドではないユーザとはチャットできません");
+      return "chat_page.html";
+    }
+
     String date_time = LocalDateTime.now().toString();
     int data_type = ChatData.TYPE_TEXT;
 
@@ -148,9 +155,6 @@ public class ChatPageController {
     chatData.setChat_data(chat_data);
 
     this.friendChatMapper.insertChatData(chatData);
-
-    model.addAttribute("receiver", receiver);
-    model.addAttribute("chat_type", "/friend_chat");
 
     return "chat_page.html";
   }
