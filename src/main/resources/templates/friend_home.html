@@ -9,12 +9,7 @@
 <body>
   <p><a href="/user_home">戻る</a></p>
   <h1>フレンドチャット | ホーム</h1>
-  <div th:if="${friend_list}">
-    <h2>フレンド</h2>
-    <p th:each="friend : ${friend_list}">
-      <a th:href="@{'/chat_page/friend_chat?receiver=' + ${friend}}">[[${friend}]]</a>
-    </p>
-  </div>
+  <p><a href="/add_friend/form">フレンド登録</a></p>
   <div th:if="${request_list}">
     <h2>フレンドリクエスト</h2>
     <p th:each="request : ${request_list}" th:id="${request}" class="friend_request">
@@ -34,6 +29,12 @@
 
       };
     </script>
+  </div>
+  <div th:if="${friend_list}">
+    <h2>フレンド</h2>
+    <p th:each="friend : ${friend_list}">
+      <a th:href="@{'/chat_page/friend_chat?receiver=' + ${friend}}">[[${friend}]]</a>
+    </p>
   </div>
 </body>
 
