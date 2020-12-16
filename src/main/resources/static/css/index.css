@@ -1,0 +1,12 @@
+body{
+  text-align: center;
+}
+
+#page_title{
+  margin: 2em;
+  font-size: 5em;
+}
+
+.menu{
+  font-size: 2em;
+}
