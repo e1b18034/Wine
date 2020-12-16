@@ -4,16 +4,28 @@
 <head>
   <meta charset="UTF-8">
   <title>Wine|ユーザホーム</title>
+  <link rel="stylesheet" href="/css/user_home.css">
 </head>
 
 <body>
-  <h1 th:if="${user_name}">こんにちは[[${user_name}]]！</h1>
-  <h1>[お品書き一覧]</h1>
-  <p><a href="/group_home">グループホーム</a></p>
-  <p><a href="/friend_home">フレンドホーム</a></p>
-  <p>
-    <a href="/login_user/logout">ログアウト</a>
-  </p>
+  <header>
+    <h1>[ユーザホーム]</h1>
+  </header>
+  <article>
+    <h2 th:if="${user_name}">こんにちは [[${user_name}]] さん!！</h2>
+    <h3 id="menu_title">[お品書き一覧]</h3>
+    <div id="menu">
+      <p class="menu_elements"><a href="/group_home">グループホーム</a></p>
+      <br>
+      <p class="menu_elements"><a href="/friend_home">フレンドホーム</a></p>
+    </div>
+  </article>
+  <footer>
+    <p>
+      <a href="/login_user/logout">ログアウト</a>
+    </p>
+  </footer>
+
 </body>
 
 </html>
