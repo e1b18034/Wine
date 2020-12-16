@@ -4,33 +4,36 @@
 <head>
   <meta charset="UTF-8">
   <title>Wine | Login</title>
+  <link rel="stylesheet" href="/css/login_user_form.css">
 </head>
 
 <body>
-  <h2>ユーザ認証フォーム</h2>
-  <h3 th:if="${message}">[[${message}]]</h3>
-  <form action="/login_user/login" method="POST">
-    <p>
-      <label>ユーザID: </label>
-      <input type="text" name="user_id" placeholder="ユーザID">
-    </p>
-    <p>
-      <label>パスワード: </label>
-      <input type="password" name="user_pwd" placeholder="パスワード">
-    </p>
-    <p th:if="${_csrf}">
-      <input type="hidden" name="_csrf" id="_csrf">
-      <script>
-        window.onload = () => {
-          let obj = document.getElementById("_csrf");
-          obj.setAttribute("value","[[${ _csrf }]]");
-        };
-      </script>
-    </p>
-    <p>
-      <input type="submit" name="login" value="ログイン">
-    </p>
-  </form>
+  <div id="box">
+    <h2 id="page_title">ユーザ認証フォーム</h2>
+    <br>
+    <br>
+    <h3 id="message" th:if="${message}">[[${message}]]</h3>
+    <form action="/login_user/login" method="POST" id="login_form">
+      <p>
+        <input type="text" name="user_id" placeholder="ユーザID" class="login_form_element">
+      </p>
+      <p>
+        <input type="password" name="user_pwd" placeholder="パスワード" class="login_form_element">
+      </p>
+      <p th:if="${_csrf}">
+        <input type="hidden" name="_csrf" id="_csrf">
+        <script>
+          window.onload = () => {
+            let obj = document.getElementById("_csrf");
+            obj.setAttribute("value","[[${ _csrf }]]");
+          };
+        </script>
+      </p>
+      <p>
+        <input type="submit" name="login" value="ログイン" class="login_form_element">
+      </p>
+    </form>
+  </div>
 </body>
 
 </html>
