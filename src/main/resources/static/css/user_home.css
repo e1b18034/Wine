@@ -1,0 +1,60 @@
+*{
+  margin: 0;
+  padding: 0;
+}
+
+html{
+  height: 100%;
+}
+
+body {
+  position: relative;
+  height: 100%;
+  background-color: rgba(250, 228, 167, 0.925);
+}
+
+header {
+  width: 100%;
+  padding-top: 2em;
+  padding-bottom: 1em;
+  text-align: center;
+}
+
+header h1 {
+  font-size: 3.5em;
+}
+
+article {
+  width: 90%;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+article h2{
+  font-size: 3em;
+}
+
+#menu_title {
+  margin-left: 4em;
+  font-size: 2.5em;
+  color: #8545fcb6;
+}
+
+#menu {
+  margin-left: 10em;
+  font-size: 2em;
+  margin-top: 0.5em;
+}
+
+.menu_elements{
+  margin-right: 2em;
+}
+
+footer{
+  position: absolute;
+  bottom: 2.5em;
+  left: 0;
+  width: 95%;
+  text-align: right;
+  font-size: 1.5em;
+}
