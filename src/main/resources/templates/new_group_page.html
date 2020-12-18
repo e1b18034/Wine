@@ -4,32 +4,32 @@
 <head>
   <meta charset="UTF-8">
   <title>Wine|NewGroup</title>
+  <link rel="stylesheet" href="/css/new_group_form.css">
 </head>
 
 <body>
-  <p><a href="/group_home">戻る</a></p>
-  <h3 th:if="${message}">[[${message}]]</h3>
-  <form action="/new_group/regist" method="POST">
-    <p>
-      <label>グループID：</label>
-      <input type="text" name="group_id" placeholder="グループIDを入力">
-    </p>
-    <p>
-      <label>グループ名：</label>
-      <input type="text" name="group_name" placeholder="グループ名を入力">
-    </p>
-    <p>
-      <label>パスワード：</label>
-      <input type="password" name="group_pwd_1" placeholder="パスワードを入力">
-    </p>
-    <p>
-      <label>パスワード再入力：</label>
-      <input type="password" name="group_pwd_2" placeholder="パスワードを再入力">
-    </p>
-    <p>
-      <input type="submit" name="new_group" value="登録">
-    </p>
-  </form>
+  <p id="back"><a href="/group_home">戻る</a></p>
+  <div id="box">
+    <h2 id="page_title">グループ作成フォーム</h2>
+    <h3 th:if="${message}" id="message">[[${message}]]</h3>
+    <form action="/new_group/regist" method="POST" id="new_group_form">
+      <p>
+        <input type="text" class="new_group_form_element" name="group_id" placeholder="グループIDを入力">
+      </p>
+      <p>
+        <input type="text" class="new_group_form_element" name="group_name" placeholder="グループ名を入力">
+      </p>
+      <p>
+        <input type="password" class="new_group_form_element" name="group_pwd_1" placeholder="パスワードを入力">
+      </p>
+      <p>
+        <input type="password" class="new_group_form_element" name="group_pwd_2" placeholder="パスワードを再入力">
+      </p>
+      <p>
+        <input type="submit" class="new_group_form_element" name="new_group" value="登録">
+      </p>
+    </form>
+  </div>
 </body>
 
 </html>
