@@ -4,31 +4,31 @@
 <head>
   <meta charset="UTF-8">
   <title>Wine|ユーザを登録する</title>
+  <link rel="stylesheet" href="/css/new_user_form.css">
 </head>
 
 <body>
-  <h3 th:if="${message}">[[${message}]]</h3>
-  <form action="/new_user/regist" method="POST">
-    <p>
-      <label>ユーザID　　　　：</label>
-      <input type="text" name="user_id" placeholder="ユーザID">
-    </p>
-    <p>
-      <label>ユーザ名　　　　：</label>
-      <input type="text" name="user_name" placeholder="ユーザ名">
-    </p>
-    <p>
-      <label>パスワード　　　：</label>
-      <input type="password" name="user_pwd_1" placeholder="パスワードを入力">
-    </p>
-    <p>
-      <label>パスワード再入力：</label>
-      <input type="password" name="user_pwd_2" placeholder="パスワードを再入力">
-    </p>
-    <p>
-      <input type="submit" name="make_new_user" value="登録">
-    </p>
-  </form>
+  <div id="box">
+    <h1 id="page_title">ユーザ新規登録フォーム</h1>
+    <h3 id="message" th:if="${message}">[[${message}]]</h3>
+    <form action="/new_user/regist" method="POST" id="user_form">
+      <p>
+        <input type="text" name="user_id" placeholder="ユーザID" class="user_form_element">
+      </p>
+      <p>
+        <input type="text" name="user_name" placeholder="ユーザ名" class="user_form_element">
+      </p>
+      <p>
+        <input type="password" name="user_pwd_1" placeholder="パスワードを入力" class="user_form_element">
+      </p>
+      <p>
+        <input type="password" name="user_pwd_2" placeholder="パスワードを再入力" class="user_form_element">
+      </p>
+      <p>
+        <input type="submit" name="make_new_user" value="登録" class="user_form_element">
+      </p>
+    </form>
+  </div>
 </body>
 
 </html>
