@@ -1,0 +1,66 @@
+*{
+  margin: 0;
+  padding: 0;
+}
+
+html{
+  height: 100%;
+}
+
+body{
+  position: relative;
+  text-align: center;
+  height: 100%;
+  background-color: rgba(146, 210, 240, 0.836);
+}
+
+#page_back{
+  position: absolute;
+  width:95%;
+  text-align: right;
+  top: 0.5em;
+  font-size: 2.0em;
+}
+
+#box{
+  position: absolute;
+  width: 80%;
+  left: 8%;
+  top: 15%;
+  text-align: center;
+  border: solid 2px;
+  border-radius: 2em;
+  padding-left: 2em;
+  padding-right: 2em;
+  padding-top: 2em;
+  padding-bottom: 2em;
+  background-color: rgba(109, 235, 218, 0.575);
+}
+
+#page_title{
+  font-size: 3em;
+}
+
+#message{
+  color: red;
+}
+
+#add_friend_form{
+  text-align: center;
+}
+
+.add_friend_form_element{
+  font-size: 1.5em;
+  padding: 0.4em;
+  margin: 0.25em;
+}
+
+input[type="text"]{
+  border: solid 1.5px #a0a0a0;
+}
+
+input[type="submit"]{
+  border: double 5px #000000;
+  font-weight: bolder;
+  margin-top: 1em;
+}

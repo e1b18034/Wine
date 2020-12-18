@@ -4,16 +4,18 @@
 <head>
   <meta charset="UTF-8">
   <title>Wine|add friend form</title>
+  <link rel="stylesheet" href="/css/add_friend_form.css">
 </head>
 
 <body>
-  <p><a href="/friend_home">戻る</a></p>
-  <h2>フレンド登録</h2>
-  <h3 th:if="${message}">[[${message}]]</h3>
-  <form action="/add_friend/add" method="POST">
+  <p id="page_back"><a href="/friend_home">戻る</a></p>
+  <div id="box">
+  <h2 id="page_title">フレンド登録</h2>
+  <h3 th:if="${message}" id="message">[[${message}]]</h3>
+  <form action="/add_friend/add" method="POST" id="add_friend_form">
     <p>
-      <label>フレンドID：</label>
-      <input type="text" name="friend_id" placeholder="フレンドのユーザIDの入力">
+      <input type="text" name="friend_id" placeholder="フレンドのユーザIDの入力"
+      class="add_friend_form_element">
     </p>
     <p th:if="${_csrf}">
       <input type="hidden" name="_csrf" id="_csrf">
@@ -25,9 +27,10 @@
       </script>
     </p>
     <p>
-      <input type="submit" name="add_friend" value="登録">
+      <input type="submit" name="add_friend" value="登録" class="add_friend_form_element">
     </p>
   </form>
+  </div>
 </body>
 
 </html>
