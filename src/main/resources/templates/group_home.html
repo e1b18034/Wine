@@ -4,19 +4,28 @@
 <head>
   <meta charset="UTF-8">
   <title>Wine|GroupHome</title>
+  <link rel="stylesheet" href="/css/group_home.css">
 </head>
 
 <body>
-  <p><a href="/user_home">戻る</a></p>
-  <h1>&lt;グループホーム&gt;</h1>
-  <p><a href="/new_group">グループ新規登録</a></p>
-  <p><a href="/entry_group">グループ参加</a></p>
-  <div th:if="${group_list}">
-    <h2>グループ</h2>
-    <p th:each="group : ${group_list}">
-      <a th:href="@{'/chat_page/group_chat?receiver=' + ${group}}">[[${group}]]</a>
-    </p>
-  </div>
+  <p id="page_back"><a href="/user_home">戻る</a></p>
+  <h1 id="page_title">[グループホーム]</h1>
+  <br>
+  <br>
+  <article>
+    <p><a href="/new_group">グループ新規登録</a></p>
+    <br>
+    <br>
+    <p><a href="/entry_group">グループ参加</a></p>
+    <div th:if="${group_list}">
+      <br>
+      <br>
+      <h2>[参加グループ一覧]</h2>
+      <p th:each="group : ${group_list}">
+        <a th:href="@{'/chat_page/group_chat?receiver=' + ${group}}">[[${group}]]</a>
+      </p>
+    </div>
+  </article>
 </body>
 
 </html>
