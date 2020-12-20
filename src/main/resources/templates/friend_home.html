@@ -4,38 +4,46 @@
 <head>
   <meta charset="UTF-8">
   <title>Wine | Friend Chat Home</title>
+  <link rel="stylesheet" href="/css/friend_home.css">
 </head>
 
 <body>
-  <p><a href="/user_home">戻る</a></p>
-  <h1>フレンドチャット | ホーム</h1>
-  <p><a href="/add_friend/form">フレンド登録</a></p>
-  <div th:if="${request_list}">
-    <h2>フレンドリクエスト</h2>
-    <p th:each="request : ${request_list}" th:id="${request}" class="friend_request">
-      [[${request}]]
-    </p>
-    <script>
-      window.onload = () => {
-        Array.from(document.getElementsByClassName("friend_request")).forEach(request => {
-          request.addEventListener("click",() => {
-            let friend_id = request.getAttribute("id");
-            let confirm_request = confirm("ユーザ(" + friend_id + ")とフレンドになりますか");
-            if (confirm_request) {
-              window.location.href = "/friend_home/friend_request?friend_id=" + friend_id;
-            }
+  <p id="page_back"><a href="/user_home">戻る</a></p>
+  <h1 id="page_title">[フレンドホーム]</h1>
+  <br>
+  <br>
+  <article>
+    <p><a href="/add_friend/form">フレンド登録</a></p>
+    <div th:if="${request_list}">
+      <br>
+      <h2>フレンドリクエスト</h2>
+      <p th:each="request : ${request_list}" th:id="${request}" class="friend_request">
+        [[${request}]]
+      </p>
+      <script>
+        window.onload = () => {
+          Array.from(document.getElementsByClassName("friend_request")).forEach(request => {
+            request.addEventListener("click",() => {
+              let friend_id = request.getAttribute("id");
+              let confirm_request = confirm("ユーザ(" + friend_id + ")とフレンドになりますか");
+              if (confirm_request) {
+                window.location.href = "/friend_home/friend_request?friend_id=" + friend_id;
+              }
+            });
           });
-        });
 
-      };
-    </script>
-  </div>
-  <div th:if="${friend_list}">
-    <h2>フレンド</h2>
-    <p th:each="friend : ${friend_list}">
-      <a th:href="@{'/chat_page/friend_chat?receiver=' + ${friend}}">[[${friend}]]</a>
-    </p>
-  </div>
+        };
+      </script>
+    </div>
+    <br>
+    <br>
+    <div th:if="${friend_list}">
+      <h2>[フレンド一覧]</h2>
+      <p th:each="friend : ${friend_list}">
+        <a th:href="@{'/chat_page/friend_chat?receiver=' + ${friend}}">[[${friend}]]</a>
+      </p>
+    </div>
+  </article>
 </body>
 
 </html>
