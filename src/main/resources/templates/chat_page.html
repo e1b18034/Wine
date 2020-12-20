@@ -4,6 +4,7 @@
 <head>
   <meta charset="UTF-8">
   <title>Wine|chat_page</title>
+  <link rel="stylesheet" href="/css/chat_page.css">
   <script>
     const chat_type = "[[${chat_type}]]";
     const receiver = "[[${receiver}]]";
@@ -20,23 +21,35 @@
         }
 
         Array.from(dataList).forEach(chat => {
-          let chatSender = document.createElement("p");
-          chatSender.textContent = chat.sender;
-          let chatDateTime = document.createElement("p");
-          chatDateTime.textContent = chat.date_time;
+          let sender = document.createElement("p");
+          sender.textContent = chat.sender;
 
-          let chatInfo = document.createElement("div");
-          chatInfo.appendChild(chatSender);
-          chatInfo.appendChild(chatDateTime);
+          let dateTime = document.createElement("small");
+          dateTime.textContent = chat.date_time;
 
-          let chatData = document.createElement("div");
+          let chatInfo = document.createElement("th");
+          chatInfo.setAttribute("class","chat_info");
+          chatInfo.appendChild(sender);
+          chatInfo.appendChild(dateTime);
+
+          let chatData = document.createElement("p");
           chatData.textContent = chat.chat_data;
+          chatData.setAttribute("class","chat_data");
 
-          let chatLine = document.createElement("div");
+          let chatDataParent = document.createElement("td");
+          chatDataParent.setAttribute("class","chat_data_parent");
+          chatDataParent.appendChild(chatData);
+
+          let chatLine = document.createElement("tr");
+          chatLine.setAttribute("class","chat_line");
           chatLine.appendChild(chatInfo);
           chatLine.appendChild(chatData);
 
-          chatArea.appendChild(chatLine);
+          let table = document.createElement("table");
+          table.setAttribute("class","chat_line_table");
+          table.appendChild(chatLine);
+
+          chatArea.appendChild(table);
         });
       };
     };
@@ -44,29 +57,29 @@
 </head>
 
 <body>
-  <a href="/">戻る</a>
+  <a id="page_back" href="/">戻る</a>
 
-  <h1 th:if="${receiver}" id="receiver">[[${receiver}]]</h1>
+  <div id="action">
+    <h1 th:if="${receiver}" id="receiver">[[${receiver}]]</h1>
 
-  <h2 th:if="${message}">[[${message}]]</h2>
+    <p th:if="${message}">[[${message}]]</p>
 
-  <div id="chat_area"></div>
+    <div id="chat_area"></div>
+  </div>
 
-  <form th:action="@{'/chat_page' + ${chat_type} + '/send'}" method="POST">
-    <p>
-      <input type="submit" value="送信">
-    </p>
-    <p>
-      <textarea name="chat_data" cols="30" rows="10"></textarea>
-    </p>
-    <p>
-      <input type="hidden" name="receiver" th:value="${receiver}">
-    </p>
-  </form>
-
-  <p>
-    <a href="/login_user/logout">ログアウト</a>
-  </p>
+  <div id="chat_form">
+    <form th:action="@{'/chat_page' + ${chat_type} + '/send'}" method="POST">
+      <p>
+        <input type="submit" value="送信">
+      </p>
+      <p>
+        <textarea name="chat_data" rows="12"></textarea>
+      </p>
+      <p>
+        <input type="hidden" name="receiver" th:value="${receiver}">
+      </p>
+    </form>
+  </div>
 </body>
 
 </html>
