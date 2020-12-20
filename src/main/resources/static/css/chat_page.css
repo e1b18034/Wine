@@ -1,0 +1,113 @@
+*{
+  margin: 0;
+  padding: 0;
+}
+
+html{
+  height: 100%;
+}
+
+body {
+  position: relative;
+  height: 100%;
+  background-color: rgba(233, 250, 192, 0.925);
+}
+
+#page_back {
+  position: absolute;
+  right: 5%;
+  top: 0.5em;
+  font-size: 1.5em;
+}
+
+#action {
+  position: absolute;
+  height: 90%;
+  width: 45%;
+  top: 5%;
+  left: 5%;
+}
+
+#message {
+  color: #ff0000;
+}
+
+#receiver {
+  font-weight: bolder;
+  font-size: 4em;
+}
+
+#chat_area {
+  height: 75%;
+  max-width: 100%;
+  margin-top: 1em;
+  margin-left: 3em;
+  font-size: 1.5em;
+  overflow-y: scroll;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+#chat_area::-webkit-scrollbar {
+  display: none;
+}
+
+.chat_line_table {
+  margin-bottom: 1em;
+  max-width: 100%;
+  table-layout: fixed;
+}
+
+.chat_line {
+  max-width: 100%;
+}
+
+.chat_info {
+  max-width: 25%;
+}
+
+.chat_data_parent {
+  max-width: 75%;
+}
+
+.chat_info * {
+  display: block;
+}
+
+.chat_data_parent * {
+  display: block;
+}
+
+.chat_data {
+  width: 100%;
+}
+
+#chat_form {
+  position: absolute;
+  width: 45%;
+  bottom: 5%;
+  right: 5%;
+  font-size: 1.5em;
+}
+
+form {
+  width: 100%;
+}
+
+form p {
+  width: 100%;
+  text-align: right;
+}
+
+input[type="submit"] {
+  border: double 2px #535368;
+  font-weight: bold;
+  font-size: 1.2em;
+  margin-bottom: 0.3em;
+}
+
+textarea {
+  width: 100%;
+  border: solid 3px #4e4848;
+  font-size: 1.2em;
+}
