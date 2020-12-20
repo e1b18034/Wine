@@ -57,7 +57,7 @@
 </head>
 
 <body>
-  <a id="page_back" href="/">戻る</a>
+  <a id="page_back" th:href="@{${chat_home}}">戻る</a>
 
   <div id="action">
     <h1 th:if="${receiver}" id="receiver">[[${receiver}]]</h1>
