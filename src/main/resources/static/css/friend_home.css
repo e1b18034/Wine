@@ -1,0 +1,40 @@
+*{
+  margin: 0;
+  padding: 0;
+}
+
+html{
+  height: 100%;
+}
+
+body {
+  position: relative;
+  height: 100%;
+  background-color: rgba(218, 248, 197, 0.925);
+}
+
+#page_back {
+  position: absolute;
+  top: 0.5em;
+  left: 0;
+  width: 95%;
+  text-align: right;
+  font-size: 1.5em;
+}
+
+#page_title {
+  width: 100%;
+  text-align: center;
+  padding-top: 1em;
+  font-size: 3em;
+}
+
+article {
+  width: 80%;
+  margin-left: 10em;
+  font-size: 1.5em;
+}
+
+article p {
+  font-size: 1.5em;
+}
