@@ -4,7 +4,6 @@ import java.time.LocalDateTime;
 
 import javax.servlet.http.HttpSession;
 
-import org.apache.logging.log4j.message.Message;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -48,6 +47,7 @@ public class ChatPageController {
 
     model.addAttribute("receiver", receiver);
     model.addAttribute("chat_type", "/group_chat");
+    model.addAttribute("chat_home", "/group_home");
 
     return "chat_page.html";
   }
@@ -80,6 +80,7 @@ public class ChatPageController {
 
     model.addAttribute("receiver", receiver);
     model.addAttribute("chat_type", "/group_chat");
+    model.addAttribute("chat_home", "/group_home");
 
     String user_id = auth.getUserId();
     if (belongMapper.isExist(receiver, user_id) == 0) {
@@ -110,6 +111,7 @@ public class ChatPageController {
 
     model.addAttribute("receiver", receiver);
     model.addAttribute("chat_type", "/friend_chat");
+    model.addAttribute("chat_home", "/friend_home");
 
     return "chat_page.html";
   }
@@ -142,6 +144,7 @@ public class ChatPageController {
 
     model.addAttribute("receiver", receiver);
     model.addAttribute("chat_type", "/friend_chat");
+    model.addAttribute("chat_home", "/friend_home");
 
     String user_id = auth.getUserId();
     if (friendMapper.isExist(user_id, receiver) == 0) {
