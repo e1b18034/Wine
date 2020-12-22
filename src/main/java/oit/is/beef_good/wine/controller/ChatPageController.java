@@ -15,9 +15,7 @@ import org.springframework.web.servlet.mvc.method.annotation.SseEmitter;
 
 import oit.is.beef_good.wine.model.BelongMapper;
 import oit.is.beef_good.wine.model.ChatData;
-import oit.is.beef_good.wine.model.FriendChatMapper;
 import oit.is.beef_good.wine.model.FriendMapper;
-import oit.is.beef_good.wine.model.GroupChatMapper;
 import oit.is.beef_good.wine.security.WineAuthentication;
 import oit.is.beef_good.wine.service.AsyncChat;
 
@@ -31,13 +29,7 @@ public class ChatPageController {
   private AsyncChat asyncChat;
 
   @Autowired
-  private FriendChatMapper friendChatMapper;
-
-  @Autowired
   private FriendMapper friendMapper;
-
-  @Autowired
-  private GroupChatMapper groupChatMapper;
 
   @GetMapping("/group_chat")
   public String groupChat(@RequestParam String receiver, ModelMap model, HttpSession session) {
@@ -70,37 +62,20 @@ public class ChatPageController {
   }
 
   @PostMapping("/group_chat/send")
-  public String sendGroupChat(@RequestParam String chat_data, @RequestParam String receiver, ModelMap model,
+  public SseEmitter sendGroupChat(@RequestParam String chat_data, @RequestParam String receiver, ModelMap model,
       HttpSession session) {
+    final SseEmitter emitter = new SseEmitter();
     WineAuthentication auth = new WineAuthentication(session);
 
-    if (!auth.isAuthenticated()) {
-      return WineAuthentication.authenticate("/chat_page/group_chat?receiver=" + receiver);
+    if (auth.isAuthenticated()) {
+      String user_id = auth.getUserId();
+      if (belongMapper.isExist(receiver, user_id) == 1) {
+        int data_type = ChatData.TYPE_TEXT;
+        this.asyncChat.sendGroupChat(user_id, receiver, data_type, chat_data);
+      }
     }
 
-    model.addAttribute("receiver", receiver);
-    model.addAttribute("chat_type", "/group_chat");
-    model.addAttribute("chat_home", "/group_home");
-
-    String user_id = auth.getUserId();
-    if (belongMapper.isExist(receiver, user_id) == 0) {
-      model.addAttribute("message", "所属していないグループでのチャットはできません");
-      return "chat_page.html";
-    }
-
-    String date_time = LocalDateTime.now().toString();
-    int data_type = ChatData.TYPE_TEXT;
-
-    ChatData chatData = new ChatData();
-    chatData.setSender(user_id);
-    chatData.setReceiver(receiver);
-    chatData.setDate_time(date_time);
-    chatData.setData_type(data_type);
-    chatData.setChat_data(chat_data);
-
-    this.groupChatMapper.insertChatData(chatData);
-
-    return "chat_page.html";
+    return emitter;
   }
 
   @GetMapping("/friend_chat")
@@ -134,36 +109,19 @@ public class ChatPageController {
   }
 
   @PostMapping("/friend_chat/send")
-  public String sendFriendChat(@RequestParam String chat_data, @RequestParam String receiver, ModelMap model,
+  public SseEmitter sendFriendChat(@RequestParam String chat_data, @RequestParam String receiver, ModelMap model,
       HttpSession session) {
+    final SseEmitter emitter = new SseEmitter();
     WineAuthentication auth = new WineAuthentication(session);
 
-    if (!auth.isAuthenticated()) {
-      return WineAuthentication.authenticate("/chat_page/friend_chat?receiver=" + receiver);
+    if (auth.isAuthenticated()) {
+      String user_id = auth.getUserId();
+      if (friendMapper.isExist(user_id, receiver) == 1) {
+        int data_type = ChatData.TYPE_TEXT;
+        this.asyncChat.sendFriendChat(user_id, receiver, data_type, chat_data);
+      }
     }
 
-    model.addAttribute("receiver", receiver);
-    model.addAttribute("chat_type", "/friend_chat");
-    model.addAttribute("chat_home", "/friend_home");
-
-    String user_id = auth.getUserId();
-    if (friendMapper.isExist(user_id, receiver) == 0) {
-      model.addAttribute("message", "フレンドではないユーザとはチャットできません");
-      return "chat_page.html";
-    }
-
-    String date_time = LocalDateTime.now().toString();
-    int data_type = ChatData.TYPE_TEXT;
-
-    ChatData chatData = new ChatData();
-    chatData.setSender(user_id);
-    chatData.setReceiver(receiver);
-    chatData.setDate_time(date_time);
-    chatData.setData_type(data_type);
-    chatData.setChat_data(chat_data);
-
-    this.friendChatMapper.insertChatData(chatData);
-
-    return "chat_page.html";
+    return emitter;
   }
 }
