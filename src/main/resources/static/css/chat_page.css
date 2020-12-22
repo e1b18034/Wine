@@ -66,6 +66,10 @@ body {
   max-width: 25%;
 }
 
+.date_time {
+  font-size: 10px;
+}
+
 .chat_data_parent {
   max-width: 75%;
 }
