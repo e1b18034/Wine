@@ -13,6 +13,15 @@ body {
   height: 100%;
 }
 
+#page_back{
+  position: absolute;
+  top: 0.5em;
+  left: 0;
+  width: 95%;
+  text-align: right;
+  font-size: 1.5em;
+}
+
 #box {
   position: absolute;
   width: 80%;
