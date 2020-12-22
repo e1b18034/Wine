@@ -57,4 +57,18 @@ public class ChatData {
   public void setChat_data(String chat_data) {
     this.chat_data = chat_data;
   }
+
+  @Override
+  public boolean equals(Object obj) {
+    if (obj instanceof ChatData) {
+      ChatData tmp = (ChatData) obj;
+      if (this.id == tmp.id && this.sender.equals(tmp.sender) && this.receiver.equals(tmp.receiver)
+          && this.date_time.equals(tmp.date_time) && this.data_type == tmp.data_type
+          && this.chat_data.equals(tmp.chat_data)) {
+        return true;
+      }
+    }
+
+    return false;
+  }
 }

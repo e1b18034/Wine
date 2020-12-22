@@ -32,15 +32,21 @@ public class AsyncChat {
 
   @Async
   public void updateFriendChat(SseEmitter emitter, String user_id, String friend_id) {
-    List<ChatData> chatList = this.getFriendChatList(user_id, friend_id);
+    List<ChatData> beforeChatList = null;
 
-    try {
-      emitter.send(SseEmitter.event().data(chatList));
-      logger.warn("send data length: " + chatList.size());
-    } catch (Exception e) {
-      logger.warn("send exception: " + e.getClass().getName() + ": " + e.getMessage());
-    } finally {
-      emitter.complete();
+    while (true) {
+      List<ChatData> chatList = this.getFriendChatList(user_id, friend_id);
+      if (!equals(beforeChatList, chatList)) {
+        beforeChatList = chatList;
+        try {
+          emitter.send(SseEmitter.event().data(chatList));
+          logger.warn("send data length: " + chatList.size());
+        } catch (Exception e) {
+          logger.warn("send exception: " + e.getClass().getName() + ": " + e.getMessage());
+          emitter.complete();
+          break;
+        }
+      }
     }
   }
 
@@ -104,5 +110,24 @@ public class AsyncChat {
   @Async
   public void error(SseEmitter emitter) {
     emitter.complete();
+  }
+
+  @Transactional
+  public static boolean equals(List<ChatData> obj1, List<ChatData> obj2) {
+    if (obj1 == null || obj2 == null) {
+      return false;
+    }
+
+    if (obj1.size() != obj2.size()) {
+      return false;
+    }
+
+    for (int i = 0; i < obj1.size() && i < obj2.size(); i++) {
+      if (!obj1.get(i).equals(obj2.get(i))) {
+        return false;
+      }
+    }
+
+    return true;
   }
 }
