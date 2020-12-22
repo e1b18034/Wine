@@ -86,7 +86,7 @@ body {
   width: 100%;
 }
 
-#chat_form {
+#chat_form_div {
   position: absolute;
   width: 45%;
   bottom: 5%;
@@ -103,7 +103,7 @@ form p {
   text-align: right;
 }
 
-input[type="submit"] {
+input[type="button"] {
   border: double 2px #535368;
   font-weight: bold;
   font-size: 1.2em;

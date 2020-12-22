@@ -9,7 +9,7 @@
     const chat_type = "[[${chat_type}]]";
     const receiver = "[[${receiver}]]";
 
-    window.onload = () => {
+    function updateChatArea() {
       let sse = new EventSource("/chat_page" + chat_type + "/update?receiver=" + receiver);
 
       sse.onmessage = (event) => {
@@ -53,6 +53,34 @@
           chatArea.appendChild(table);
         });
       };
+    }
+
+    function setAsyncChatSend() {
+      document.getElementById("chat_send_button").addEventListener("click",() => {
+        // 送信データ作成
+        let formData = new FormData();
+
+        let chatData = document.getElementById("chat_data").value;
+        let receiver = document.getElementById("receiver_input").value;
+
+        formData.append("chat_data",chatData);
+        formData.append("receiver",receiver);
+
+        // XMLHttpRequestで非同期POST送信
+        let xhr = new XMLHttpRequest();
+
+        let request = document.getElementById("chat_form").getAttribute("action");
+        xhr.open("POST",request,true);
+
+        xhr.send(formData);
+
+        document.getElementById("chat_data").value = "";
+      });
+    }
+
+    window.onload = () => {
+      updateChatArea();
+      setAsyncChatSend();
     };
   </script>
 </head>
@@ -68,16 +96,16 @@
     <div id="chat_area"></div>
   </div>
 
-  <div id="chat_form">
-    <form th:action="@{'/chat_page' + ${chat_type} + '/send'}" method="POST">
+  <div id="chat_form_div">
+    <form th:action="@{'/chat_page' + ${chat_type} + '/send'}" method="POST" id="chat_form">
       <p>
-        <input type="submit" value="送信">
+        <input type="button" id="chat_send_button" value="送信">
       </p>
       <p>
-        <textarea name="chat_data" rows="12"></textarea>
+        <textarea name="chat_data" id="chat_data" rows="12"></textarea>
       </p>
       <p>
-        <input type="hidden" name="receiver" th:value="${receiver}">
+        <input type="hidden" name="receiver" id="receiver_input" th:value="${receiver}">
       </p>
     </form>
   </div>

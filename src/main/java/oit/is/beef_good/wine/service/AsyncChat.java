@@ -1,5 +1,6 @@
 package oit.is.beef_good.wine.service;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 import org.slf4j.Logger;
@@ -44,6 +45,25 @@ public class AsyncChat {
   }
 
   @Transactional
+  public void insertFriendChat(ChatData chatData) {
+    this.friendChatMapper.insertChatData(chatData);
+  }
+
+  @Async
+  public void sendFriendChat(String user_id, String friend_id, int data_type, String chat_data) {
+    String date_time = LocalDateTime.now().toString();
+
+    ChatData chatData = new ChatData();
+    chatData.setSender(user_id);
+    chatData.setReceiver(friend_id);
+    chatData.setDate_time(date_time);
+    chatData.setData_type(data_type);
+    chatData.setChat_data(chat_data);
+
+    this.insertFriendChat(chatData);
+  }
+
+  @Transactional
   public List<ChatData> getGroupChatList(String user_id, String group_id) {
     return this.groupChatMapper.getChatData(group_id);
   }
@@ -60,6 +80,25 @@ public class AsyncChat {
     } finally {
       emitter.complete();
     }
+  }
+
+  @Transactional
+  public void insertGroupChat(ChatData chatData) {
+    this.groupChatMapper.insertChatData(chatData);
+  }
+
+  @Async
+  public void sendGroupChat(String user_id, String group_id, int data_type, String chat_data) {
+    String date_time = LocalDateTime.now().toString();
+
+    ChatData chatData = new ChatData();
+    chatData.setSender(user_id);
+    chatData.setReceiver(group_id);
+    chatData.setDate_time(date_time);
+    chatData.setData_type(data_type);
+    chatData.setChat_data(chat_data);
+
+    this.insertGroupChat(chatData);
   }
 
   @Async
