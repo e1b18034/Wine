@@ -76,15 +76,21 @@ public class AsyncChat {
 
   @Async
   public void updateGroupChat(SseEmitter emitter, String user_id, String group_id) {
-    List<ChatData> chatList = this.getGroupChatList(user_id, group_id);
+    List<ChatData> beforeChatList = null;
 
-    try {
-      emitter.send(SseEmitter.event().data(chatList));
-      logger.warn("send data length: " + chatList.size());
-    } catch (Exception e) {
-      logger.warn("send exception: " + e.getClass().getName() + ": " + e.getMessage());
-    } finally {
-      emitter.complete();
+    while (true) {
+      List<ChatData> chatList = this.getGroupChatList(user_id, group_id);
+      if (!equals(beforeChatList, chatList)) {
+        beforeChatList = chatList;
+        try {
+          emitter.send(SseEmitter.event().data(chatList));
+          logger.warn("send data length: " + chatList.size());
+        } catch (Exception e) {
+          logger.warn("send exception: " + e.getClass().getName() + ": " + e.getMessage());
+          emitter.complete();
+          break;
+        }
+      }
     }
   }
 
