@@ -53,6 +53,8 @@
           chatArea.appendChild(table);
         });
       };
+
+      return sse;
     }
 
     function setAsyncChatSend() {
@@ -78,9 +80,20 @@
       });
     }
 
+    function setTransferEvent(eventSource) {
+      new Array(
+        document.getElementById("page_back")
+      ).forEach(obj => {
+        obj.addEventListener("click",() => {
+          eventSource.close();
+        });
+      });
+    }
+
     window.onload = () => {
       updateChatArea();
       setAsyncChatSend();
+      setTransferEvent();
     };
   </script>
 </head>
