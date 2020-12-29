@@ -1,6 +1,8 @@
 package oit.is.beef_good.wine.service;
 
+import java.io.File;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.slf4j.Logger;
@@ -111,6 +113,32 @@ public class AsyncChat {
     chatData.setChat_data(chat_data);
 
     this.insertGroupChat(chatData);
+  }
+
+  @Transactional
+  public List<String> getStampNameList() {
+    File dir = new File("./src/main/resources/static/img/stamp/");
+    File[] list = dir.listFiles();
+
+    List<String> stampNameList = new ArrayList<>();
+    for (File file : list) {
+      stampNameList.add(file.getName());
+    }
+
+    return stampNameList;
+  }
+
+  @Async
+  public void asyncGetStampList(SseEmitter emitter) {
+    List<String> stampNameList = this.getStampNameList();
+
+    try {
+      emitter.send(SseEmitter.event().data(stampNameList));
+    } catch (Exception e) {
+      logger.warn(e.getClass().getName() + ": " + e.getMessage());
+    } finally {
+      emitter.complete();
+    }
   }
 
   @Async
