@@ -102,22 +102,31 @@
         // document
         selectStampWindow.document.write("<!DOCTYPE html><html lang='ja'><head></head><body></body></html>");
 
+        // onload function
+        selectStampWindow.onload = () => {
+          let sse = new EventSource("/chat_page/stamp_list");
+          sse.onmessage = (event) => {
+            let data = JSON.parse(event.data);
+
+            Array.from(data).forEach(fileName => {
+              let stamp = document.createElement("img");
+              stamp.setAttribute("src","/img/stamp/" + fileName);
+              stamp.setAttribute("id",fileName);
+              stamp.setAttribute("class","stamp_list_element");
+
+              selectStampWindow.document.getElementsByTagName("body")[0].appendChild(stamp);
+            });
+
+            sse.close();
+          };
+        };
+
         // head
         let title = document.createElement("title");
         title.textContent = "Wine | Select Stamp";
         selectStampWindow.document.getElementsByTagName("head")[0].appendChild(title);
 
         // body
-        let stamp1 = document.createElement("img");
-        stamp1.setAttribute("src","/img/stamp/OK.png");
-        let stamp2 = document.createElement("img");
-        stamp2.setAttribute("src","/img/stamp/hungry.png");
-        let stamp3 = document.createElement("img");
-        stamp3.setAttribute("src","/img/stamp/hurry.png");
-
-        selectStampWindow.document.getElementsByTagName("body")[0].appendChild(stamp1);
-        selectStampWindow.document.getElementsByTagName("body")[0].appendChild(stamp2);
-        selectStampWindow.document.getElementsByTagName("body")[0].appendChild(stamp3);
 
         // close
         selectStampWindow.document.close();

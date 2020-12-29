@@ -1,5 +1,6 @@
 package oit.is.beef_good.wine.controller;
 
+import java.io.File;
 import java.time.LocalDateTime;
 
 import javax.servlet.http.HttpSession;
@@ -120,6 +121,18 @@ public class ChatPageController {
         int data_type = ChatData.TYPE_TEXT;
         this.asyncChat.sendFriendChat(user_id, receiver, data_type, chat_data);
       }
+    }
+
+    return emitter;
+  }
+
+  @GetMapping("stamp_list")
+  public SseEmitter getStampList(HttpSession session) {
+    final SseEmitter emitter = new SseEmitter();
+    WineAuthentication auth = new WineAuthentication(session);
+
+    if (auth.isAuthenticated()) {
+      asyncChat.asyncGetStampList(emitter);
     }
 
     return emitter;
