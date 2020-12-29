@@ -90,10 +90,36 @@
       });
     }
 
+    var selectStampWindow = null;
+    function setStampButtonClickListener() {
+      document.getElementById("stamp_select_button").addEventListener("click",() => {
+        // window
+        selectStampWindow = window.open("","SelectStampWindow","width=300,height=600");
+
+        // open
+        selectStampWindow.document.open();
+
+        // document
+        selectStampWindow.document.write("<!DOCTYPE html><html lang='ja'><head></head><body></body></html>");
+
+        // head
+        let title = document.createElement("title");
+        title.textContent = "Wine | Select Stamp";
+        selectStampWindow.document.getElementsByTagName("head")[0].appendChild(title);
+
+        // body
+        // write here
+
+        // close
+        selectStampWindow.document.close();
+      });
+    }
+
     window.onload = () => {
       updateChatArea();
       setAsyncChatSend();
       setTransferEvent();
+      setStampButtonClickListener();
     };
   </script>
 </head>
