@@ -108,7 +108,16 @@
         selectStampWindow.document.getElementsByTagName("head")[0].appendChild(title);
 
         // body
-        // write here
+        let stamp1 = document.createElement("img");
+        stamp1.setAttribute("src","/img/stamp/OK.png");
+        let stamp2 = document.createElement("img");
+        stamp2.setAttribute("src","/img/stamp/hungry.png");
+        let stamp3 = document.createElement("img");
+        stamp3.setAttribute("src","/img/stamp/hurry.png");
+
+        selectStampWindow.document.getElementsByTagName("body")[0].appendChild(stamp1);
+        selectStampWindow.document.getElementsByTagName("body")[0].appendChild(stamp2);
+        selectStampWindow.document.getElementsByTagName("body")[0].appendChild(stamp3);
 
         // close
         selectStampWindow.document.close();
