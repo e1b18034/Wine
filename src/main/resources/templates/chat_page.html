@@ -109,6 +109,10 @@
         // document
         doc.write("<!DOCTYPE html><html lang='ja'><head></head><body></body></html>");
 
+        let h1 = doc.createElement("h1");
+        h1.textContent = "[スタンプ一覧]";
+        doc.body.appendChild(h1);
+
         let sse = new EventSource("/chat_page/stamp_list");
         sse.onmessage = (event) => {
           let data = JSON.parse(event.data);
@@ -155,11 +159,10 @@
         let title = doc.createElement("title");
         title.textContent = "Wine | Select Stamp";
         doc.head.appendChild(title);
-
-        // body
-
-        // close
-        doc.close();
+        let css = doc.createElement("link");
+        css.setAttribute("href","/css/stamp.css");
+        css.setAttribute("rel","stylesheet");
+        doc.head.appendChild(css);
       });
     }
 
