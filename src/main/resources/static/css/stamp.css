@@ -1,0 +1,25 @@
+*{
+  margin: 0;
+  padding: 0;
+}
+
+html{
+  height: 100%;
+}
+
+body {
+  position: relative;
+  height: 100%;
+  background-color: rgba(200, 224, 255, 0.959);
+}
+
+h1 {
+  text-align: left;
+  top: 1em;
+  font-size: medium;
+  font-weight: bold;
+}
+
+.stamp_list_element{
+  width: 25%;
+}
