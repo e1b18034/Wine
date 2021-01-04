@@ -63,7 +63,7 @@ public class ChatPageController {
   }
 
   @PostMapping("/group_chat/send")
-  public SseEmitter sendGroupChat(@RequestParam String chat_data, @RequestParam String receiver, ModelMap model,
+  public SseEmitter sendGroupChat(@RequestParam String chat_data, @RequestParam Integer data_type,@RequestParam String receiver, ModelMap model,
       HttpSession session) {
     final SseEmitter emitter = new SseEmitter();
     WineAuthentication auth = new WineAuthentication(session);
@@ -71,7 +71,6 @@ public class ChatPageController {
     if (auth.isAuthenticated()) {
       String user_id = auth.getUserId();
       if (belongMapper.isExist(receiver, user_id) == 1) {
-        int data_type = ChatData.TYPE_TEXT;
         this.asyncChat.sendGroupChat(user_id, receiver, data_type, chat_data);
       }
     }
@@ -110,7 +109,7 @@ public class ChatPageController {
   }
 
   @PostMapping("/friend_chat/send")
-  public SseEmitter sendFriendChat(@RequestParam String chat_data, @RequestParam String receiver, ModelMap model,
+  public SseEmitter sendFriendChat(@RequestParam String chat_data,@RequestParam Integer data_type, @RequestParam String receiver, ModelMap model,
       HttpSession session) {
     final SseEmitter emitter = new SseEmitter();
     WineAuthentication auth = new WineAuthentication(session);
@@ -118,7 +117,6 @@ public class ChatPageController {
     if (auth.isAuthenticated()) {
       String user_id = auth.getUserId();
       if (friendMapper.isExist(user_id, receiver) == 1) {
-        int data_type = ChatData.TYPE_TEXT;
         this.asyncChat.sendFriendChat(user_id, receiver, data_type, chat_data);
       }
     }
