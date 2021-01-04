@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.servlet.mvc.method.annotation.SseEmitter;
 
+import oit.is.beef_good.wine.model.BelongMapper;
 import oit.is.beef_good.wine.model.ChatData;
 import oit.is.beef_good.wine.model.FriendChatMapper;
 import oit.is.beef_good.wine.model.GroupChatMapper;
@@ -24,6 +25,9 @@ public class AsyncChat {
 
   @Autowired
   private GroupChatMapper groupChatMapper;
+
+  @Autowired
+  private BelongMapper belongMapper;
 
   private final Logger logger = LoggerFactory.getLogger(AsyncChat.class);
 
@@ -134,6 +138,24 @@ public class AsyncChat {
 
     try {
       emitter.send(SseEmitter.event().data(stampNameList));
+    } catch (Exception e) {
+      logger.warn(e.getClass().getName() + ": " + e.getMessage());
+    } finally {
+      emitter.complete();
+    }
+  }
+
+  @Transactional
+  public List<String> getGroupMemberList(String group_id) {
+    return this.belongMapper.getUserIdByGroupId(group_id);
+  }
+
+  @Async
+  public void asyncGetGroupMember(SseEmitter emitter, String group_id) {
+    List<String> memberList = this.getGroupMemberList(group_id);
+
+    try {
+      emitter.send(SseEmitter.event().data(memberList));
     } catch (Exception e) {
       logger.warn(e.getClass().getName() + ": " + e.getMessage());
     } finally {

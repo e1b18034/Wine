@@ -16,4 +16,7 @@ public interface BelongMapper {
 
   @Insert("INSERT INTO belong (group_id, user_id) VALUES (#{group_id}, #{user_id})")
   void insertBelongGroup(String group_id, String user_id);
+
+  @Select("SELECT user_id FROM belong WHERE group_id = #{group_id}")
+  List<String> getUserIdByGroupId(String group_id);
 }
