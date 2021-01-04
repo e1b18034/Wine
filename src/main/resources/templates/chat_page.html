@@ -33,8 +33,18 @@
           chatInfo.appendChild(sender);
           chatInfo.appendChild(dateTime);
 
-          let chatData = document.createElement("p");
-          chatData.textContent = chat.chat_data;
+          let chatData = null;
+          switch (chat.data_type) {
+            case 1:
+              chatData = document.createElement("p");
+              chatData.textContent = chat.chat_data;
+              break;
+
+            case 2:
+              chatData = document.createElement("img");
+              chatData.setAttribute("src","/img/stamp/" + chat.chat_data);
+              break;
+          }
           chatData.setAttribute("class","chat_data");
 
           let chatDataParent = document.createElement("td");
@@ -66,6 +76,7 @@
         let receiver = document.getElementById("receiver_input").value;
 
         formData.append("chat_data",chatData);
+        formData.append("data_type",1);
         formData.append("receiver",receiver);
 
         // XMLHttpRequestで非同期POST送信
@@ -90,46 +101,65 @@
       });
     }
 
-    var selectStampWindow = null;
     function setStampButtonClickListener() {
       document.getElementById("stamp_select_button").addEventListener("click",() => {
         // window
-        selectStampWindow = window.open("","SelectStampWindow","width=300,height=600");
-
-        // open
-        selectStampWindow.document.open();
-
+        let selectStampWindow = window.open("","SelectStampWindow","width=600,height=600");
+        let doc = selectStampWindow.document;
         // document
-        selectStampWindow.document.write("<!DOCTYPE html><html lang='ja'><head></head><body></body></html>");
+        doc.write("<!DOCTYPE html><html lang='ja'><head></head><body></body></html>");
 
-        // onload function
-        selectStampWindow.onload = () => {
-          let sse = new EventSource("/chat_page/stamp_list");
-          sse.onmessage = (event) => {
-            let data = JSON.parse(event.data);
+        let sse = new EventSource("/chat_page/stamp_list");
+        sse.onmessage = (event) => {
+          let data = JSON.parse(event.data);
 
-            Array.from(data).forEach(fileName => {
-              let stamp = document.createElement("img");
-              stamp.setAttribute("src","/img/stamp/" + fileName);
-              stamp.setAttribute("id",fileName);
-              stamp.setAttribute("class","stamp_list_element");
+          Array.from(data).forEach(fileName => {
+            let stamp = document.createElement("img");
+            stamp.setAttribute("src","/img/stamp/" + fileName);
+            stamp.setAttribute("id",fileName);
+            stamp.setAttribute("class","stamp_list_element");
 
-              selectStampWindow.document.getElementsByTagName("body")[0].appendChild(stamp);
+            doc.body.appendChild(stamp);
+          });
+
+          sse.close();
+
+          // スタンプ画像送信設定
+          Array.from(doc.getElementsByClassName("stamp_list_element")).forEach(stamp => {
+            console.log(stamp);
+            stamp.addEventListener("click",() => {
+              // 送信データ作成
+              let formData = new FormData();
+
+              let chatData = stamp.getAttribute("id");
+              let receiver = document.getElementById("receiver_input").value;
+
+              formData.append("chat_data",chatData);
+              formData.append("data_type",2);
+              formData.append("receiver",receiver);
+
+              // XMLHttpRequestで非同期POST送信
+              let xhr = new XMLHttpRequest();
+
+              let request = document.getElementById("chat_form").getAttribute("action");
+              xhr.open("POST",request,true);
+
+              xhr.send(formData);
+
+              selectStampWindow.close();
             });
-
-            sse.close();
-          };
+          });
         };
 
         // head
-        let title = document.createElement("title");
+        let title = doc.createElement("title");
         title.textContent = "Wine | Select Stamp";
-        selectStampWindow.document.getElementsByTagName("head")[0].appendChild(title);
+        doc.head.appendChild(title);
 
         // body
 
         // close
-        selectStampWindow.document.close();
+        doc.close();
       });
     }
 
