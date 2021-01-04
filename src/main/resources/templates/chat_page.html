@@ -180,6 +180,7 @@
 
   <div id="action">
     <h1 th:if="${receiver}" id="receiver">[[${receiver}]]</h1>
+    <h2 th:if="${chat_type == '/group_chat'}" id="group_member_button">&lt; 参加者一覧 &gt;</h2>
 
     <p th:if="${message}">[[${message}]]</p>
 
