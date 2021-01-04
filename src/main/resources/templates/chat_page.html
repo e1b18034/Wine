@@ -166,11 +166,47 @@
       });
     }
 
+    var displayGroupMemberList = false;
+    function setClickListenerGroupMemberButton() {
+      document.getElementById("group_member_button").addEventListener("click",() => {
+        displayGroupMemberList = !displayGroupMemberList;
+        let space = document.getElementById("group_member_list_space");
+
+        if (displayGroupMemberList) {
+          let sse = new EventSource("/chat_page/group_chat/member?group_id=[[${receiver}]]");
+          sse.onmessage = (event) => {
+            let dataList = JSON.parse(event.data);
+
+            let header = document.createElement("h4");
+            header.setAttribute("id","group_member_list_header");
+            header.textContent = "< 参加者一覧 >";
+            space.appendChild(header);
+
+            Array.from(dataList).forEach(data => {
+              let p = document.createElement("p");
+              p.setAttribute("class","group_member");
+              p.textContent = data;
+
+              space.appendChild(p);
+            });
+
+            sse.close();
+          };
+        } else {
+          while (space.firstChild) {
+            space.removeChild(space.firstChild);
+          }
+        }
+
+      });
+    }
+
     window.onload = () => {
       updateChatArea();
       setAsyncChatSend();
       setTransferEvent();
       setStampButtonClickListener();
+      setClickListenerGroupMemberButton();
     };
   </script>
 </head>
@@ -187,6 +223,7 @@
     <div id="chat_area"></div>
   </div>
 
+  <div id="group_member_list_space"></div>
   <div id="chat_form_div">
     <form th:action="@{'/chat_page' + ${chat_type} + '/send'}" method="POST" id="chat_form">
       <p>

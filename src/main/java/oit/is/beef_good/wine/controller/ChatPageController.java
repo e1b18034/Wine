@@ -63,8 +63,8 @@ public class ChatPageController {
   }
 
   @PostMapping("/group_chat/send")
-  public SseEmitter sendGroupChat(@RequestParam String chat_data, @RequestParam Integer data_type,@RequestParam String receiver, ModelMap model,
-      HttpSession session) {
+  public SseEmitter sendGroupChat(@RequestParam String chat_data, @RequestParam Integer data_type,
+      @RequestParam String receiver, ModelMap model, HttpSession session) {
     final SseEmitter emitter = new SseEmitter();
     WineAuthentication auth = new WineAuthentication(session);
 
@@ -109,8 +109,8 @@ public class ChatPageController {
   }
 
   @PostMapping("/friend_chat/send")
-  public SseEmitter sendFriendChat(@RequestParam String chat_data,@RequestParam Integer data_type, @RequestParam String receiver, ModelMap model,
-      HttpSession session) {
+  public SseEmitter sendFriendChat(@RequestParam String chat_data, @RequestParam Integer data_type,
+      @RequestParam String receiver, ModelMap model, HttpSession session) {
     final SseEmitter emitter = new SseEmitter();
     WineAuthentication auth = new WineAuthentication(session);
 
@@ -131,6 +131,21 @@ public class ChatPageController {
 
     if (auth.isAuthenticated()) {
       asyncChat.asyncGetStampList(emitter);
+    }
+
+    return emitter;
+  }
+
+  @GetMapping("/group_chat/member")
+  public SseEmitter getGroupMember(@RequestParam String group_id, HttpSession session) {
+    final SseEmitter emitter = new SseEmitter();
+    WineAuthentication auth = new WineAuthentication(session);
+
+    if (auth.isAuthenticated()) {
+      String user_id = auth.getUserId();
+      if (this.belongMapper.isExist(group_id, user_id) == 1) {
+        this.asyncChat.asyncGetGroupMember(emitter, group_id);
+      }
     }
 
     return emitter;

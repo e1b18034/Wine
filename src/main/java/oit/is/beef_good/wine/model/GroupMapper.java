@@ -18,7 +18,5 @@ public interface GroupMapper {
   String getGroupPwd(String group_id);
 
   @Insert("INSERT INTO `group` (group_id,group_name,group_pwd) VALUES (#{group_id},#{group_name},#{group_pwd})")
-
   int insertGroup(Group group);
-
 }
