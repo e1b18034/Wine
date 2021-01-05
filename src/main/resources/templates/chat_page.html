@@ -73,6 +73,9 @@
         let formData = new FormData();
 
         let chatData = document.getElementById("chat_data").value;
+        if (chatData == "") {
+          return;
+        }
         let receiver = document.getElementById("receiver_input").value;
 
         formData.append("chat_data",chatData);
