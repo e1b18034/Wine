@@ -5,6 +5,7 @@
   <meta charset="UTF-8">
   <title>Wine|chat_page</title>
   <link rel="stylesheet" href="/css/chat_page.css">
+  <link rel="stylesheet" href="/css/group_member.css">
   <script>
     const chat_type = "[[${chat_type}]]";
     const receiver = "[[${receiver}]]";
@@ -174,16 +175,12 @@
       document.getElementById("group_member_button").addEventListener("click",() => {
         displayGroupMemberList = !displayGroupMemberList;
         let space = document.getElementById("group_member_list_space");
+        let div = document.getElementById("group_member_div");
 
         if (displayGroupMemberList) {
           let sse = new EventSource("/chat_page/group_chat/member?group_id=[[${receiver}]]");
           sse.onmessage = (event) => {
             let dataList = JSON.parse(event.data);
-
-            let header = document.createElement("h4");
-            header.setAttribute("id","group_member_list_header");
-            header.textContent = "< 参加者一覧 >";
-            space.appendChild(header);
 
             Array.from(dataList).forEach(data => {
               let p = document.createElement("p");
@@ -194,11 +191,15 @@
             });
 
             sse.close();
+
+            div.style.border = "solid 1px #000000";
+            div.style.borderRadius = "1em";
           };
         } else {
           while (space.firstChild) {
             space.removeChild(space.firstChild);
           }
+          div.style.border = "0";
         }
 
       });
@@ -217,16 +218,18 @@
 <body>
   <a id="page_back" th:href="@{${chat_home}}">戻る</a>
 
+  <div th:if="${chat_type == '/group_chat'}" id="group_member_div">
+    <h2 id="group_member_button">&lt; 参加者一覧 &gt;</h2>
+    <div id="group_member_list_space"></div>
+  </div>
+
   <div id="action">
     <h1 th:if="${receiver}" id="receiver">[[${receiver}]]</h1>
-    <h2 th:if="${chat_type == '/group_chat'}" id="group_member_button">&lt; 参加者一覧 &gt;</h2>
-
     <p th:if="${message}">[[${message}]]</p>
 
     <div id="chat_area"></div>
   </div>
 
-  <div id="group_member_list_space"></div>
   <div id="chat_form_div">
     <form th:action="@{'/chat_page' + ${chat_type} + '/send'}" method="POST" id="chat_form">
       <p>
