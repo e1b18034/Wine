@@ -1,0 +1,17 @@
+#group_member_div {
+  position: absolute;
+  right: 10%;
+  top: 10%;
+  padding: 2em;
+  max-height: 25%;
+}
+
+#group_member_list_space{
+  overflow-y: scroll;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+#group_member_list_space::-webkit-scrollbar {
+  display: none;
+}
