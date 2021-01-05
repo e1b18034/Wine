@@ -1,8 +1,11 @@
 package oit.is.beef_good.wine.service;
 
 import java.io.File;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import org.slf4j.Logger;
@@ -63,7 +66,7 @@ public class AsyncChat {
 
   @Async
   public void sendFriendChat(String user_id, String friend_id, int data_type, String chat_data) {
-    String date_time = LocalDateTime.now().toString();
+    String date_time = getDateTime();
 
     ChatData chatData = new ChatData();
     chatData.setSender(user_id);
@@ -107,7 +110,7 @@ public class AsyncChat {
 
   @Async
   public void sendGroupChat(String user_id, String group_id, int data_type, String chat_data) {
-    String date_time = LocalDateTime.now().toString();
+    String date_time = getDateTime();
 
     ChatData chatData = new ChatData();
     chatData.setSender(user_id);
@@ -185,5 +188,15 @@ public class AsyncChat {
     }
 
     return true;
+  }
+
+  @Transactional
+  public String getDateTime() {
+    Date date = new Date();
+    DateFormat dateTimeFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
+
+    String dateTime = dateTimeFormat.format(date);
+
+    return dateTime;
   }
 }
