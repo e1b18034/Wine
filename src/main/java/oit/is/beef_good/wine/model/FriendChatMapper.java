@@ -9,7 +9,7 @@ import org.apache.ibatis.annotations.Select;
 
 @Mapper
 public interface FriendChatMapper {
-  @Select("SELECT * FROM friend_chat WHERE sender = #{user_id} AND receiver = #{friend_id} OR sender = #{friend_id} AND receiver = #{user_id} ORDER BY id ASC")
+  @Select("SELECT * FROM friend_chat WHERE sender = #{user_id} AND receiver = #{friend_id} OR sender = #{friend_id} AND receiver = #{user_id} ORDER BY id DESC")
   List<ChatData> getChatData(String user_id, String friend_id);
 
   @Insert("INSERT INTO friend_chat (sender, receiver, date_time, data_type, chat_data) VALUES (#{sender}, #{receiver}, #{date_time}, #{data_type}, #{chat_data})")

@@ -15,12 +15,12 @@ public interface GroupChatMapper {
    * @param receiver
    * @return
    */
-  @Select("SELECT * FROM group_chat WHERE receiver = #{receiver}")
+  @Select("SELECT * FROM group_chat WHERE receiver = #{receiver} ORDER BY id DESC")
   List<ChatData> getChatData(String receiver);
 
   /**
    * チャットデータ挿入
-   * 
+   *
    * @param chatData
    */
   @Insert("INSERT INTO group_chat (sender, receiver, date_time, data_type, chat_data) VALUES (#{sender}, #{receiver}, #{date_time}, #{data_type}, #{chat_data})")
