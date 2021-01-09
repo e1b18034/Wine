@@ -1,8 +1,5 @@
 package oit.is.beef_good.wine.controller;
 
-import java.io.File;
-import java.time.LocalDateTime;
-
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,9 +10,9 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.method.annotation.SseEmitter;
+import org.springframework.web.multipart.MultipartFile;
 
 import oit.is.beef_good.wine.model.BelongMapper;
-import oit.is.beef_good.wine.model.ChatData;
 import oit.is.beef_good.wine.model.FriendMapper;
 import oit.is.beef_good.wine.security.WineAuthentication;
 import oit.is.beef_good.wine.service.AsyncChat;

@@ -10,6 +10,7 @@ public class ChatData {
 
   public static final int TYPE_TEXT = 1;
   public static final int TYPE_STAMP = 2;
+  public static final int TYPE_PHOTO = 3;
 
   public int getId() {
     return id;
