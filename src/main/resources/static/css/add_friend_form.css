@@ -11,7 +11,11 @@ body{
   position: relative;
   text-align: center;
   height: 100%;
-  background-color: rgba(146, 210, 240, 0.836);
+
+  background: -moz-linear-gradient(to bottom,#cd5c5c,#f3c8c8 50%,#cd5c5c);
+  background: -webkit-linear-gradient(to bottom,#cd5c5c,#f3c8c8 50%,#cd5c5c);
+  background: linear-gradient(to bottom,#cd5c5c,#f3c8c8 50%,#cd5c5c);
+
 }
 
 #page_back{
@@ -19,7 +23,7 @@ body{
   width:95%;
   text-align: right;
   top: 0.5em;
-  font-size: 2.0em;
+  font-size: 1.5em;
 }
 
 #box{
@@ -34,7 +38,8 @@ body{
   padding-right: 2em;
   padding-top: 2em;
   padding-bottom: 2em;
-  background-color: rgba(109, 235, 218, 0.575);
+  background-color: #a6c9dd;
+
 }
 
 #page_title{

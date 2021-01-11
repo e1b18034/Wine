@@ -11,7 +11,10 @@ body {
   position: relative;
   text-align: center;
   height: 100%;
-  background-color: #ffd5ae;
+  background: -moz-linear-gradient(to bottom,#cd5c5c,#f3c8c8 50%,#cd5c5c);
+  background: -webkit-linear-gradient(to bottom,#cd5c5c,#f3c8c8 50%,#cd5c5c);
+  background: linear-gradient(to bottom,#cd5c5c,#f3c8c8 50%,#cd5c5c);
+
 }
 
 #box {

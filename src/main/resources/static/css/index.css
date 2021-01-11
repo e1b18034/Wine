@@ -9,7 +9,7 @@ body{
 #page_title{
   margin: 2em;
   font-size: 5em;
-  color: #000000;
+  color: #fce6e6;
 }
 
 .menu{
@@ -18,5 +18,5 @@ body{
 }
 
 .menu * {
-  color: #000000;
+  color: #fce6e6;
 }
