@@ -10,7 +10,10 @@ html{
 body {
   position: relative;
   height: 100%;
-  background-color: rgba(218, 248, 197, 0.925);
+  background: -moz-linear-gradient(to bottom,#8b0000,#cd5c5c 50%,#8b0000);
+  background: -webkit-linear-gradient(to bottom,#8b0000,#cd5c5c 50%,#8b0000);
+  background: linear-gradient(to bottom,#8b0000,#cd5c5c 50%,#8b0000);
+  color: #fce6e6;
 }
 
 #page_back {

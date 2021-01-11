@@ -10,7 +10,10 @@ html{
 body {
   position: relative;
   height: 100%;
-  background-color: rgba(250, 228, 167, 0.925);
+  background: -moz-linear-gradient(to bottom,#8b0000,#cd5c5c 50%,#8b0000);
+  background: -webkit-linear-gradient(to bottom,#8b0000,#cd5c5c 50%,#8b0000);
+  background: linear-gradient(to bottom,#8b0000,#cd5c5c 50%,#8b0000);
+  color: #fce6e6;
 }
 
 header {
@@ -37,7 +40,6 @@ article h2{
 #menu_title {
   margin-left: 4em;
   font-size: 2.5em;
-  color: #8545fcb6;
 }
 
 #menu {

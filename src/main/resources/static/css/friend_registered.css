@@ -9,7 +9,9 @@ html{
 body{
   position: relative;
   height: 100%;
-  background-color: rgba(144, 238, 67, 0.486);
+  background: -moz-linear-gradient(to bottom,#8b0000,#cd5c5c 50%,#8b0000);
+  background: -webkit-linear-gradient(to bottom,#8b0000,#cd5c5c 50%,#8b0000);
+  background: linear-gradient(to bottom,#8b0000,#cd5c5c 50%,#8b0000);
 }
 
 header {
@@ -23,5 +25,5 @@ header {
 
 header h1 {
   font-size: 3.5em;
-  color: rgba(105, 58, 233, 0.808);
+  color: rgba(0, 0, 0, 0.822);
 }
