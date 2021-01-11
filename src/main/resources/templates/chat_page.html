@@ -218,22 +218,26 @@
         if (event.target.files[0].size <= 1000000) {
           reader.onload = (element) => {
             let photo = element.target.result;
-            console.log(photo);
+            if (new RegExp("^data:image").test(photo)) {
+              console.log(photo);
 
-            let data = new FormData();
+              let data = new FormData();
 
-            let chatData = photo;
-            let receiver = document.getElementById("receiver_input").value;
+              let chatData = photo;
+              let receiver = document.getElementById("receiver_input").value;
 
-            data.append("chat_data",chatData);
-            data.append("data_type",3);
-            data.append("receiver",receiver);
+              data.append("chat_data",chatData);
+              data.append("data_type",3);
+              data.append("receiver",receiver);
 
-            let xhr = new XMLHttpRequest();
-            let request = document.getElementById("chat_form").getAttribute("action");
-            xhr.open("POST",request,true);
+              let xhr = new XMLHttpRequest();
+              let request = document.getElementById("chat_form").getAttribute("action");
+              xhr.open("POST",request,true);
 
-            xhr.send(data);
+              xhr.send(data);
+            } else {
+              alert("画像以外のファイルを送信することはできません");
+            }
 
             document.getElementById("send_photo_button").value = "";
           };
