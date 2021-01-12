@@ -1,6 +1,8 @@
 package oit.is.beef_good.wine.controller;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpSession;
 
@@ -12,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import oit.is.beef_good.wine.model.FriendMapper;
+import oit.is.beef_good.wine.model.UserMapper;
 import oit.is.beef_good.wine.security.WineAuthentication;
 
 @Controller
@@ -19,6 +22,9 @@ import oit.is.beef_good.wine.security.WineAuthentication;
 public class FriendHomeController {
   @Autowired
   private FriendMapper friendMapper;
+
+  @Autowired
+  private UserMapper userMapper;
 
   @GetMapping("")
   public String page(HttpSession session, ModelMap model) {
@@ -29,7 +35,15 @@ public class FriendHomeController {
     String user_id = new WineAuthentication(session).getUserId();
 
     List<String> friendList = this.friendMapper.getFriendListById(user_id);
-    model.addAttribute("friend_list", friendList);
+    Map<String, String> friendIdNameMap = new HashMap<>();
+    for (int i = 0; i < friendList.size(); i++) {
+      String key = friendList.get(i);
+      String value = this.userMapper.getUserName(key);
+
+      friendIdNameMap.put(key, value);
+    }
+
+    model.addAttribute("friend_map", friendIdNameMap);
     List<String> requestList = this.friendMapper.getFriendRequestListById(user_id);
     model.addAttribute("request_list", requestList);
 

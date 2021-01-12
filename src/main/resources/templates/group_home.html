@@ -17,12 +17,12 @@
     <br>
     <br>
     <p><a href="/entry_group">グループ参加</a></p>
-    <div th:if="${group_list}">
+    <div th:if="${group_map}">
       <br>
       <br>
       <h2>[参加グループ一覧]</h2>
-      <p th:each="group : ${group_list}">
-        <a th:href="@{'/chat_page/group_chat?receiver=' + ${group}}">[[${group}]]</a>
+      <p th:each="group : ${group_map}">
+        <a th:href="@{'/chat_page/group_chat?receiver=' + ${group.key}}">[[${group.value}]]</a>
       </p>
     </div>
   </article>

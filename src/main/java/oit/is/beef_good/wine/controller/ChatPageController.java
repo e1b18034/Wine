@@ -10,10 +10,11 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.method.annotation.SseEmitter;
-import org.springframework.web.multipart.MultipartFile;
 
 import oit.is.beef_good.wine.model.BelongMapper;
 import oit.is.beef_good.wine.model.FriendMapper;
+import oit.is.beef_good.wine.model.GroupMapper;
+import oit.is.beef_good.wine.model.UserMapper;
 import oit.is.beef_good.wine.security.WineAuthentication;
 import oit.is.beef_good.wine.service.AsyncChat;
 
@@ -29,6 +30,12 @@ public class ChatPageController {
   @Autowired
   private FriendMapper friendMapper;
 
+  @Autowired
+  private UserMapper userMapper;
+
+  @Autowired
+  private GroupMapper groupMapper;
+
   @GetMapping("/group_chat")
   public String groupChat(@RequestParam String receiver, ModelMap model, HttpSession session) {
     if (!new WineAuthentication(session).isAuthenticated()) {
@@ -36,6 +43,7 @@ public class ChatPageController {
     }
 
     model.addAttribute("receiver", receiver);
+    model.addAttribute("receiver_name", this.groupMapper.getGroupName(receiver));
     model.addAttribute("chat_type", "/group_chat");
     model.addAttribute("chat_home", "/group_home");
 
@@ -82,6 +90,7 @@ public class ChatPageController {
     }
 
     model.addAttribute("receiver", receiver);
+    model.addAttribute("receiver_name", this.userMapper.getUserName(receiver));
     model.addAttribute("chat_type", "/friend_chat");
     model.addAttribute("chat_home", "/friend_home");
 
