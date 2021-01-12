@@ -160,7 +160,13 @@ public class AsyncChat {
 
   @Transactional
   public List<String> getGroupMemberList(String group_id) {
-    return this.belongMapper.getUserIdByGroupId(group_id);
+    List<String> memberIdList = this.belongMapper.getUserIdByGroupId(group_id);
+    List<String> result = new ArrayList<>();
+    for (int i = 0; i < memberIdList.size(); i++) {
+      result.add(this.userMapper.getUserName(memberIdList.get(i)));
+    }
+
+    return result;
   }
 
   @Async
