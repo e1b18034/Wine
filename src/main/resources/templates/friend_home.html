@@ -37,10 +37,10 @@
     </div>
     <br>
     <br>
-    <div th:if="${friend_list}">
+    <div th:if="${friend_map}">
       <h2>[フレンド一覧]</h2>
-      <p th:each="friend : ${friend_list}">
-        <a th:href="@{'/chat_page/friend_chat?receiver=' + ${friend}}" id="friend">[[${friend}]]</a>
+      <p th:each="friend : ${friend_map}">
+        <a th:href="@{'/chat_page/friend_chat?receiver=' + ${friend.key}}" id="friend">[[${friend.value}]]</a>
       </p>
     </div>
   </article>
