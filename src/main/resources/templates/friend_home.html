@@ -13,7 +13,7 @@
   <br>
   <br>
   <article>
-    <p><a href="/add_friend/form">フレンド登録</a></p>
+    <p><a href="/add_friend/form" id="add_friend">フレンド登録</a></p>
     <div th:if="${request_list}">
       <br>
       <h2>フレンドリクエスト</h2>
@@ -40,7 +40,7 @@
     <div th:if="${friend_list}">
       <h2>[フレンド一覧]</h2>
       <p th:each="friend : ${friend_list}">
-        <a th:href="@{'/chat_page/friend_chat?receiver=' + ${friend}}">[[${friend}]]</a>
+        <a th:href="@{'/chat_page/friend_chat?receiver=' + ${friend}}" id="friend">[[${friend}]]</a>
       </p>
     </div>
   </article>
