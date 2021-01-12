@@ -113,12 +113,30 @@ form p {
 input[type="button"] {
   border: double 2px #535368;
   font-weight: bold;
-  font-size: 1.2em;
+  font-size: 1.1em;
   margin-bottom: 0.3em;
+  background-color: rgb(247, 235, 211);
 }
 
 textarea {
   width: 100%;
   border: solid 3px #4e4848;
   font-size: 1.2em;
+}
+
+#input_file_button {
+  border: double 2px #535368;
+  font-weight: bold;
+  font-size: 1.0em;
+  margin-bottom: 0.3em;
+  margin-right: 0.3em;
+  background-color: rgb(247, 235, 211);
+  cursor: pointer;
+  padding-top: 5px;
+  padding-right: 5px;
+  padding-left: 15px;
+}
+
+input[type="file"] {
+  display: none;
 }
