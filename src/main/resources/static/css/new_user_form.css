@@ -26,6 +26,10 @@ body{
   font-size: 1.5em;
 }
 
+#page_back * {
+  color: #770000;
+}
+
 #box{
   position: absolute;
   width: 80%;
