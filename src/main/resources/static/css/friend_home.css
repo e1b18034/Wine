@@ -25,11 +25,19 @@ body {
   font-size: 1.5em;
 }
 
+#page_back * {
+  color:#fce6e6;
+}
+
 #page_title {
   width: 100%;
   text-align: center;
   padding-top: 1em;
   font-size: 3em;
+}
+
+#add_friend {
+  color:#fce6e6;
 }
 
 article {
@@ -40,4 +48,8 @@ article {
 
 article p {
   font-size: 1.5em;
+}
+
+#friend {
+  color: #fce6e6;
 }

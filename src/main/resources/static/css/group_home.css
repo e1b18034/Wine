@@ -25,6 +25,10 @@ body {
   font-size: 1.5em;
 }
 
+#page_back * {
+  color: #fce6e6;
+}
+
 #page_title {
   width: 100%;
   text-align: center;
@@ -36,6 +40,10 @@ article {
   width: 80%;
   margin-left: 10em;
   font-size: 1.5em;
+}
+
+article * {
+  color: #fce6e6;
 }
 
 article p {
