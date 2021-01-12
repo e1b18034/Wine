@@ -50,6 +50,10 @@ article p {
   font-size: 1.5em;
 }
 
+.friend_request{
+  text-decoration: underline;
+}
+
 #friend {
   color: #fce6e6;
 }
