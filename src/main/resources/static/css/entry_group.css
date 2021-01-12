@@ -68,6 +68,10 @@ input[type="submit"] {
   text-align: right;
 }
 
+#back * {
+  color: #ffd7d7;
+}
+
 #back a {
   font-size: 1.5em;
 }
