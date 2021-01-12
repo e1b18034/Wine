@@ -20,6 +20,7 @@ import oit.is.beef_good.wine.model.BelongMapper;
 import oit.is.beef_good.wine.model.ChatData;
 import oit.is.beef_good.wine.model.FriendChatMapper;
 import oit.is.beef_good.wine.model.GroupChatMapper;
+import oit.is.beef_good.wine.model.UserMapper;
 
 @Service
 public class AsyncChat {
@@ -31,6 +32,9 @@ public class AsyncChat {
 
   @Autowired
   private BelongMapper belongMapper;
+
+  @Autowired
+  private UserMapper userMapper;
 
   private final Logger logger = LoggerFactory.getLogger(AsyncChat.class);
 
@@ -48,8 +52,11 @@ public class AsyncChat {
       if (!equals(beforeChatList, chatList)) {
         beforeChatList = chatList;
         try {
-          emitter.send(SseEmitter.event().data(chatList));
-          logger.warn("send data length: " + chatList.size());
+          List<ChatData> result = cloneChatList(chatList);
+          convertSender(result);
+
+          emitter.send(SseEmitter.event().data(result));
+          logger.warn("send data length: " + result.size());
         } catch (Exception e) {
           logger.warn("send exception: " + e.getClass().getName() + ": " + e.getMessage());
           emitter.complete();
@@ -92,8 +99,11 @@ public class AsyncChat {
       if (!equals(beforeChatList, chatList)) {
         beforeChatList = chatList;
         try {
-          emitter.send(SseEmitter.event().data(chatList));
-          logger.warn("send data length: " + chatList.size());
+          List<ChatData> result = cloneChatList(chatList);
+          convertSender(result);
+
+          emitter.send(SseEmitter.event().data(result));
+          logger.warn("send data length: " + result.size());
         } catch (Exception e) {
           logger.warn("send exception: " + e.getClass().getName() + ": " + e.getMessage());
           emitter.complete();
@@ -198,5 +208,27 @@ public class AsyncChat {
     String dateTime = dateTimeFormat.format(date);
 
     return dateTime;
+  }
+
+  @Transactional
+  public List<ChatData> cloneChatList(List<ChatData> chatData) {
+    ArrayList<ChatData> result = new ArrayList<>();
+    for (int i = 0; i < chatData.size(); i++) {
+      try {
+        result.add(chatData.get(i).clone());
+      } catch (Exception e) {
+        logger.error(e.getClass().getName() + ":" + e.getMessage());
+      }
+    }
+    return result;
+  }
+
+  @Transactional
+  public void convertSender(List<ChatData> senderChat) {
+    for (int i = 0; i < senderChat.size(); i++) {
+      String user_id = senderChat.get(i).getSender();
+      String user_name = userMapper.getUserName(user_id);
+      senderChat.get(i).setSender(user_name);
+    }
   }
 }

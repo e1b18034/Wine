@@ -1,6 +1,6 @@
 package oit.is.beef_good.wine.model;
 
-public class ChatData {
+public class ChatData implements Cloneable {
   private int id;
   private String sender;
   private String receiver;
@@ -72,5 +72,18 @@ public class ChatData {
     }
 
     return false;
+  }
+
+  @Override
+  public ChatData clone() throws CloneNotSupportedException {
+    ChatData chatdata = new ChatData();
+    chatdata.id = this.id;
+    chatdata.sender = this.sender;
+    chatdata.receiver = this.receiver;
+    chatdata.date_time = this.date_time;
+    chatdata.data_type = this.data_type;
+    chatdata.chat_data = this.chat_data;
+
+    return chatdata;
   }
 }
