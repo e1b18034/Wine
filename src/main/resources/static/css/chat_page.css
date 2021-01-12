@@ -23,6 +23,10 @@ body {
   font-size: 1.5em;
 }
 
+#page_back {
+  color: #770000;
+}
+
 #action {
   position: absolute;
   height: 90%;
