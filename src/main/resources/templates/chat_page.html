@@ -285,7 +285,9 @@
   <div id="chat_form_div">
     <form th:action="@{'/chat_page' + ${chat_type} + '/send'}" method="POST" id="chat_form">
       <p>
-        <input type="file" id="send_photo_button">
+        <label id="input_file_button">
+          <input type="file" id="send_photo_button">画像
+        </label>
         <input type="button" id="stamp_select_button" value="スタンプ">
         <input type="button" id="chat_send_button" value="送信">
       </p>
