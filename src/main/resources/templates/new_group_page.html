@@ -5,6 +5,100 @@
   <meta charset="UTF-8">
   <title>Wine|NewGroup</title>
   <link rel="stylesheet" href="/css/new_group_form.css">
+  <script>
+    /**
+     * @returns {boolean}
+    */
+    function checkGroupId() {
+      const pattern = /^\w+$/;
+      let group_id = document.getElementById("group_id").value;
+
+      if (group_id.length == 0) {
+        alert("グループIDを入力してください");
+      } else if (group_id.length > 16) {
+        alert("グループIDは16文字以内で入力してください");
+      } else {
+        if (group_id.match(pattern) != null) {
+          return true;
+        }
+        alert("グループIDには半角英数字のみ使用可能です");
+      }
+
+      return false;
+    }
+
+    /**
+     * @returns {boolean}
+    */
+    function checkGroupName() {
+      let group_name = document.getElementById("group_name").value;
+
+      if (group_name.length == 0) {
+        alert("グループ名を入力してください");
+      } else if (group_name.length > 16) {
+        alert("グループ名は16文字以内で入力してください");
+      } else {
+        return true;
+      }
+
+      return false;
+    }
+
+    /**
+     * @returns {boolean}
+    */
+    function checkGroupPwd1() {
+      const pattern = /^\w+$/;
+      let group_pwd_1 = document.getElementById("group_pwd_1").value;
+
+      if (group_pwd_1.length == 0) {
+        alert("パスワードを入力してください");
+      } else if (group_pwd_1.length < 8) {
+        alert("パスワードは8文字以上で入力してください");
+      } else {
+        if (group_pwd_1.match(pattern) != null) {
+          return true;
+        }
+        alert("パスワードには半角英数字のみ使用可能です");
+      }
+
+      return false;
+    }
+
+    /**
+     * @returns {boolean}
+    */
+    function checkGroupPwd2() {
+      let group_pwd_1 = document.getElementById("group_pwd_1").value;
+      let group_pwd_2 = document.getElementById("group_pwd_2").value;
+
+      if (group_pwd_1 === group_pwd_2) {
+        return true;
+      }
+
+      alert("パスワード再入力が一致しません");
+      return false;
+    }
+
+    function setMakeGroupButtonClickListener() {
+      document.getElementById("new_group").addEventListener("click",() => {
+        let checkFlg = 0;
+
+        if (checkGroupId()) checkFlg++;
+        if (checkGroupName()) checkFlg++;
+        if (checkGroupPwd1()) checkFlg++;
+        if (checkGroupPwd2()) checkFlg++;
+
+        if (checkFlg == 4) {
+          document.getElementById("new_group_form").submit();
+        }
+      });
+    }
+
+    window.onload = () => {
+      setMakeGroupButtonClickListener();
+    };
+  </script>
 </head>
 
 <body>
@@ -14,19 +108,21 @@
     <h3 th:if="${message}" id="message">[[${message}]]</h3>
     <form action="/new_group/regist" method="POST" id="new_group_form">
       <p>
-        <input type="text" class="new_group_form_element" name="group_id" placeholder="グループIDを入力">
+        <input type="text" class="new_group_form_element" name="group_id" placeholder="グループIDを入力" id="group_id">
       </p>
       <p>
-        <input type="text" class="new_group_form_element" name="group_name" placeholder="グループ名を入力">
+        <input type="text" class="new_group_form_element" name="group_name" placeholder="グループ名を入力" id="group_name">
       </p>
       <p>
-        <input type="password" class="new_group_form_element" name="group_pwd_1" placeholder="パスワードを入力">
+        <input type="password" class="new_group_form_element" name="group_pwd_1" placeholder="パスワードを入力"
+          id="group_pwd_1">
       </p>
       <p>
-        <input type="password" class="new_group_form_element" name="group_pwd_2" placeholder="パスワードを再入力">
+        <input type="password" class="new_group_form_element" name="group_pwd_2" placeholder="パスワードを再入力"
+          id="group_pwd_2">
       </p>
       <p>
-        <input type="submit" class="new_group_form_element" name="new_group" value="登録">
+        <input type="button" class="new_group_form_element" name="new_group" value="登録" id="new_group">
       </p>
     </form>
   </div>
