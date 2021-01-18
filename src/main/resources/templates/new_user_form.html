@@ -5,6 +5,99 @@
   <meta charset="UTF-8">
   <title>Wine|ユーザを登録する</title>
   <link rel="stylesheet" href="/css/new_user_form.css">
+  <script>
+    /**
+     * @returns {boolean}
+    */
+    function checkUserId() {
+      const pattern = /^\w+$/;
+      let user_id = document.getElementById("user_id").value;
+
+      if (user_id.length == 0) {
+        alert("ユーザIDを入力してください");
+      } else if (user_id.length > 16) {
+        alert("ユーザIDは16文字以内で入力してください");
+      } else {
+        if (user_id.match(pattern) != null) {
+          return true;
+        } else {
+          alert("ユーザIDは半角英数字のみ使用可能です");
+        }
+      }
+
+      return false;
+    }
+
+    /**
+     * @returns {boolean}
+    */
+    function checkUserName() {
+      let user_name = document.getElementById("user_name").value;
+
+      if (user_name.length == 0) {
+        alert("ユーザ名を入力してください");
+      } else if (user_name.length > 16) {
+        alert("ユーザ名は16文字以内で入力してください")
+      } else {
+        return true;
+      }
+
+      return false;
+    }
+
+    /**
+     * @returns {boolean}
+    */
+    function checkUserPwd1() {
+      const pattern = /^\w+$/;
+      let user_pwd_1 = document.getElementById("user_pwd_1").value;
+
+      if (user_pwd_1.length == 0) {
+        alert("パスワードを入力してください");
+      } else if (user_pwd_1.length < 8) {
+        alert("パスワードは8文字以上で入力してください");
+      } else {
+        if (user_pwd_1.match(pattern) != null) {
+          return true;
+        } else {
+          alert("パスワードは半角英数字のみ使用可能です");
+        }
+      }
+
+      return false;
+    }
+
+    /**
+     * @returns {boolean}
+    */
+    function checkUserPwd2() {
+      let user_pwd_1 = document.getElementById("user_pwd_1").value;
+      let user_pwd_2 = document.getElementById("user_pwd_2").value;
+
+      if (user_pwd_1 === user_pwd_2) {
+        return true;
+      }
+
+      alert("パスワード再入力が一致しません");
+      return false;
+    }
+
+    function setSubmitClickListener() {
+      document.getElementById("make_new_user").addEventListener("click",() => {
+        let sumFlg = 0;
+        if (checkUserId()) sumFlg++;
+        if (checkUserName()) sumFlg++;
+        if (checkUserPwd1()) sumFlg++;
+        if (checkUserPwd2()) sumFlg++;
+
+        if (sumFlg == 4) document.getElementById("user_form").submit();
+      });
+    }
+
+    window.onload = () => {
+      setSubmitClickListener();
+    };
+  </script>
 </head>
 
 <body>
@@ -14,19 +107,19 @@
     <h3 id="message" th:if="${message}">[[${message}]]</h3>
     <form action="/new_user/regist" method="POST" id="user_form">
       <p>
-        <input type="text" name="user_id" placeholder="ユーザID" class="user_form_element">
+        <input type="text" name="user_id" placeholder="ユーザID" class="user_form_element" id="user_id">
       </p>
       <p>
-        <input type="text" name="user_name" placeholder="ユーザ名" class="user_form_element">
+        <input type="text" name="user_name" placeholder="ユーザ名" class="user_form_element" id="user_name">
       </p>
       <p>
-        <input type="password" name="user_pwd_1" placeholder="パスワードを入力" class="user_form_element">
+        <input type="password" name="user_pwd_1" placeholder="パスワードを入力" class="user_form_element" id="user_pwd_1">
       </p>
       <p>
-        <input type="password" name="user_pwd_2" placeholder="パスワードを再入力" class="user_form_element">
+        <input type="password" name="user_pwd_2" placeholder="パスワードを再入力" class="user_form_element" id="user_pwd_2">
       </p>
       <p>
-        <input type="submit" name="make_new_user" value="登録" class="user_form_element">
+        <input type="button" name="make_new_user" value="登録" class="user_form_element" id="make_new_user">
       </p>
     </form>
   </div>
